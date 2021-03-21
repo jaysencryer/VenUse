@@ -1,0 +1,20 @@
+{% extends "VenUse/layout.html" %}
+
+{% block body %}
+    {% if add_venue %}
+    <div>
+        <form id="add_venue_form" action='/add_venue' method="post"> 
+            {% csrf_token %}
+            {{ven_form}}
+            <input type="submit" value="Register Venue"/>
+        </form>
+        </div>
+    {% endif %}
+    {% if venues %}
+    <div>
+        {% for venue in venues %}
+            {{venue.name}}{{venue.description}}
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

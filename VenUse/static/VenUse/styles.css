@@ -1,0 +1,105 @@
+body {
+    padding-top: 60px;
+    font-family: "Yanone Kaffeesatz", sans-serif;
+}
+
+.ven-content {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+.nav_bar {
+    box-sizing: border-box;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: lightsalmon;
+    padding: 0;
+    margin: 0;
+}
+
+.nav_bar a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav_bar a:hover {
+    cursor: pointer;
+
+    text-shadow: -1px -1px 2px rgb(202, 83, 83), 1px 1px 2px rgb(202, 83, 83);
+    /*   -webkit-background-clip:text;
+    -moz-background-clip: text;
+    background-clip: text;*/
+}
+
+.nav_bar ul {
+    margin-top: 10px;
+    padding: 0px 10px;
+}
+
+.brand {
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px 10px 0px 0px;
+}
+
+.ven-nav-item {
+    display: inline-block;
+    padding: 5px;
+}
+
+.right_nav {
+    display: block;
+    float: right;
+}
+
+.left_nav {
+    display: block;
+    float: left;
+}
+
+.ven-form {
+    display: block;
+    box-sizing: border-box;
+
+    margin: auto;
+    padding: 5px;
+}
+
+.ven-input {
+    box-sizing: border-box;
+    width: 100%;
+    margin: auto;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+.ven-btn {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 6px lightgray;
+}
+
+.login-register {
+    display: block;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: lightsalmon;
+    max-width: 500px;
+    min-width: 300px;
+
+    padding: 5px;
+    margin: auto;
+}
+.login-register h2 {
+    text-align: center;
+}
+
+.info {
+    text-align: center;
+}

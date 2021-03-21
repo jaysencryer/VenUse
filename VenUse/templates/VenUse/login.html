@@ -1,0 +1,27 @@
+{% extends "VenUse/layout.html" %}
+
+{% block body %}
+<div class='login-register'>
+    <h2>Login</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="ven-form">
+            <input autofocus autocomplete="off" class="ven-input" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="ven-form">
+            <input class="ven-input" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="ven-form">
+            <input class="ven-btn" type="submit" value="Login">
+        </div>
+    </form>
+    <div class="info">
+        Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+    </div>
+</div>
+{% endblock %}
