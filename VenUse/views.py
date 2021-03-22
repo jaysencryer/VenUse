@@ -33,14 +33,16 @@ def index(request):
     # TO DO - select featured/popular venues - look for venues recently booked - random featured venue
     #
     feat_venues = Venue.objects.all()[0:10]
+
     if (request.user.is_authenticated):
         user_venues = Venue.objects.filter(user=request.user)
     else:
         user_venues = {}
+
+    # print(user_venues)
     return render(request, "VenUse/index.html", {
         'user_venues': user_venues,
         'feat_venues': feat_venues,
-
     })
 
 
@@ -129,3 +131,24 @@ def add_venue(request):
             "ven_form": ven_form,
             "venues": venues,
         })
+
+
+@login_required
+def manage_venue(request):
+    venues = Venue.objects.filter(user=request.user)
+
+    return render(request, "VenUse/manage_venues.html", {
+        "add_venue": False,
+        "venues": venues,
+    })
+
+
+def show_venue(request, venurl):
+    """
+    Shows the venue home page for <str:venurl>, as navigated to by venue/<venurl>
+    """
+    venue = Venue.objects.get(url=venurl)
+
+    return render(request, "VenUse/default_venue.html", {
+        "venue": venue,
+    })

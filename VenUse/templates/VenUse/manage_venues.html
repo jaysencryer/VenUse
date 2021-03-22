@@ -2,13 +2,22 @@
 
 {% block body %}
     {% if add_venue %}
-    <div>
+    <div class="manage add_venue">
         <form id="add_venue_form" action='/add_venue' method="post"> 
             {% csrf_token %}
-            {{ven_form}}
+            <div class="ven-form">
+                {{ven_form.name}}
+            </div>
+            <div class="ven-form">
+                {{ven_form.url}}
+            </div>
+            <div class="ven-form">
+                {{ven_form.description}}
+            </div>
+            
             <input type="submit" value="Register Venue"/>
         </form>
-        </div>
+    </div>
     {% endif %}
     {% if venues %}
     <div>

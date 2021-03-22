@@ -1,12 +1,21 @@
 body {
-    padding-top: 60px;
+    padding-top: 55px;
     font-family: "Yanone Kaffeesatz", sans-serif;
+    font-size: 20px;
+    background-color: rgb(29, 9, 2);
 }
 
 .ven-content {
     display: block;
     width: 100%;
     margin: auto;
+}
+
+.index {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    color: white;
 }
 
 .nav_bar {
@@ -26,13 +35,9 @@ body {
     color: black;
 }
 
-.nav_bar a:hover {
+.nav_bar :is(a:hover, #user_name:hover) {
     cursor: pointer;
-
     text-shadow: -1px -1px 2px rgb(202, 83, 83), 1px 1px 2px rgb(202, 83, 83);
-    /*   -webkit-background-clip:text;
-    -moz-background-clip: text;
-    background-clip: text;*/
 }
 
 .nav_bar ul {
@@ -92,7 +97,6 @@ body {
     background-color: lightsalmon;
     max-width: 500px;
     min-width: 300px;
-
     padding: 5px;
     margin: auto;
 }
@@ -102,4 +106,56 @@ body {
 
 .info {
     text-align: center;
+}
+
+[class$="_venues"] {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin: 5px auto;
+}
+
+@keyframes menu_drop {
+    from {
+        height: 0;
+        width: 100px;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    100% {
+        overflow: hidden;
+        height: 100px;
+    }
+}
+#profile_menu {
+    animation-name: menu_drop;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+    box-sizing: border-box;
+    position: relative;
+    top: -28px;
+    display: none;
+    float: right;
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    background-color: lightsalmon;
+    border-radius: 5px;
+}
+
+#profile_menu .hide {
+    animation-name: menu_drop;
+    animation-direction: reverse;
+    animation-duration: 0.2s;
+}
+
+#profile_menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 3px;
 }

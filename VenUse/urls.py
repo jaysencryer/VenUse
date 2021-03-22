@@ -8,4 +8,8 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("logout", views.logout_view, name="logout"),
     path("add_venue", views.add_venue, name="add_venue"),
+    path("manage", views.manage_venue, name="manage_venue"),
+
+    # user urls
+    path("Venue/<str:venurl>", views.show_venue, name="show_venue"),
 ]

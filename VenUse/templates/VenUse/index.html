@@ -1,34 +1,32 @@
-{% extends "VenUse/layout.html" %}
-
-{% block body %}
-    <div class="index">
-        Welcome to VenUse {{ user.first_name }}
-        {% if not user.is_authenticated %}
-            <div>
-                <a href='/login'>Login here</a> to manage your VenUse or Bookings
-            </div>
-            {% else %} 
-            <div class="user_venues">
-                This will show all user venues.
-                {% if not user_venues %}
-                    You currently have no venues - <a href='/add_venue'>click here</a> to add one.
-                {% else %}
-                    {% for venue in user_venues %}
-                        <div>
-                            {{venue.name}}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        {% endif %}
-        <div class="featured_venues">
-            This will show featured or popular venues
-            {% for venue in feat_venues %}
-                <div>
-                    {{ venue.name }}
-                </div>
-            {% endfor %}
+{% extends "VenUse/layout.html" %} {% block body %}
+<div class="index">
+    Welcome to VenUse {{ user.first_name }} 
+    {% if not user.is_authenticated %}
+        <div>
+            <a href="/login">Login here</a> to manage your VenUse or Bookings
         </div>
-        
+    {% else %}
+        <div class="user_venues">
+            This will show all user venues. 
+            {% if not user_venues %} 
+                You currently have no venues - <a href="/add_venue">click here</a> to add one. 
+            {% else %} 
+                {% for venue in user_venues %}
+                <div class="display_venue">
+                    <a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a>
+                </div>
+                {% endfor %} 
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="featured_venues">
+        This will show featured or popular venues 
+        {% for venue in feat_venues %}
+            <div>
+                {{ venue.name }}
+            </div>
+            
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

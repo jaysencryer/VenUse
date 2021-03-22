@@ -1,0 +1,12 @@
+{% extends "VenUse/layout.html" %}
+
+{% block title %}
+    {{ venue.name }}
+{% endblock %}
+{% block body %}
+    {% if venue %}
+        <div class="venue">
+            <h1>{{ venue.name }}</h1>
+        </div>
+    {% endif %}
+{% endblock %}

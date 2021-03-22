@@ -8,6 +8,16 @@
         <link href="{% static 'VenUse/styles.css' %}" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700&display=swap" rel="stylesheet">
+        <script src="{% static 'VenUse/venues.js' %}"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'VenUse/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'VenUse/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'VenUse/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'VenUse/site.webmanifest' %}">
+        <title>
+            {% block title %}
+                VenUse
+            {% endblock %}
+        </title>
     </head>
     <body>
         
@@ -31,15 +41,19 @@
                 
                     {% if user.is_authenticated %}
                         
-                            <li class="ven-nav-item">
-                                <a href="{% url 'logout' %}">Logout</a>
-                            </li>
-                            <li class="ven-nav-item">{{ user.username }}</li>
+                            
+                            <li class="ven-nav-item" id="user_name">{{ user.username }}</li>
+                            
                 
                     {% endif %}
                 </div>
+
             </ul>
+          
         </nav>
+        <div id='profile_menu'>
+            {% include 'VenUse/profile_menu.html' %}
+        </div>
         <div class="ven-content">
             {% block body %}
             {% endblock %}
