@@ -159,3 +159,11 @@ body {
     margin: 0;
     padding: 3px;
 }
+
+.manage {
+    display:block;
+    width:100%;
+    background-color: white;
+    padding:5px;
+    border-radius:5px;
+}

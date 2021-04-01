@@ -20,10 +20,18 @@
     </div>
     {% endif %}
     {% if venues %}
-    <div>
+    <div class="manage">
+        <div>
         {% for venue in venues %}
-            {{venue.name}}{{venue.description}}
+            <h2><a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a></h2> 
+            {{venue.description}}
+            <button value="edit">edit</button>
         {% endfor %}
+        </div>
+        <div>
+            <button id="add_venue" value="add">Add another Venue</button>
+
+        </div>
     </div>
     {% endif %}
 {% endblock %}

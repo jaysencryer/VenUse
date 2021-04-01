@@ -16,6 +16,7 @@
                     <a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a>
                 </div>
                 {% endfor %} 
+                <a href="{% url 'manage_venue' %}">Manage Venues</a>
             {% endif %}
         </div>
     {% endif %}
