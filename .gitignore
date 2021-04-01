@@ -1,0 +1,6 @@
+capstone-env
+.vscode
+db.sqlite3
+VenUse/__pycache__/
+VenUse/migrations/
+capstone/__pycache__/

@@ -1,24 +1,21 @@
 {% extends "VenUse/layout.html" %}
 
 {% block body %}
-    {% if add_venue %}
-    <div class="manage add_venue">
+    <div id="add_venue_form" class="manage add_venue {{ add_venue_form }}">
         <form id="add_venue_form" action='/add_venue' method="post"> 
             {% csrf_token %}
             <div class="ven-form">
-                {{ven_form.name}}
+                Name:{{ven_form.name}}
             </div>
             <div class="ven-form">
-                {{ven_form.url}}
+                Url:{{ven_form.url}}
             </div>
             <div class="ven-form">
-                {{ven_form.description}}
+                Description:{{ven_form.description}}
             </div>
-            
             <input type="submit" value="Register Venue"/>
         </form>
     </div>
-    {% endif %}
     {% if venues %}
     <div class="manage">
         <div>
@@ -30,7 +27,6 @@
         </div>
         <div>
             <button id="add_venue" value="add">Add another Venue</button>
-
         </div>
     </div>
     {% endif %}

@@ -113,8 +113,13 @@ def add_venue(request):
 
     if request.method == 'POST':
         print(f"Adding Venue name {request.POST['name']}")
+        if request.POST["url"] == "":
+            url = request.POST["name"].replace(" ","")
+        else:
+            url = request.POST["url"]
+
         new_venue = Venue(
-            user=request.user, name=request.POST["name"], url=request.POST["url"], description=request.POST["description"])
+            user=request.user, name=request.POST["name"], url=url, description=request.POST["description"])
         new_venue.save()
 
         return render(request, "VenUse/manage_venues.html", {
@@ -127,7 +132,7 @@ def add_venue(request):
         ven_form = VenueForm()
 
         return render(request, "VenUse/manage_venues.html", {
-            "add_venue": True,
+            "add_venue_form": "show",
             "ven_form": ven_form,
             "venues": venues,
         })
@@ -137,8 +142,11 @@ def add_venue(request):
 def manage_venue(request):
     venues = Venue.objects.filter(user=request.user)
 
+    ven_form = VenueForm()
+
     return render(request, "VenUse/manage_venues.html", {
-        "add_venue": False,
+        "add_venue_form": "hide",
+        "ven_form": ven_form,
         "venues": venues,
     })
 
