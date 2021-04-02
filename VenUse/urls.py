@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import views, api
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -12,4 +12,7 @@ urlpatterns = [
 
     # user urls
     path("Venue/<str:venurl>", views.show_venue, name="show_venue"),
+
+    # api urls
+    path("get_venue/<int:venue_id>", api.get_venue, name="get_venue"),
 ]

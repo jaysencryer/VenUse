@@ -163,7 +163,7 @@ body {
 .manage {
     display:block;
     width:95%;
-    margin:auto;
+    margin:10px auto;
     background-color: white;
     padding:5px;
     border-radius:5px;
