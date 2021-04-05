@@ -19,8 +19,8 @@ const toggleButtons = (buttonArray) => {
 
 const toggleProfileMenu = () => {
     const profileMenu = document.querySelector("#profile_menu");
-    profileMenu.style.display =
-        profileMenu.style.display === "block" ? "none" : "block";
+    profileMenu.classList.toggle("show_menu"); 
+    profileMenu.querySelector('ul').style.display = profileMenu.querySelector('ul').style.display === 'block' ? 'none' : 'block';
 };
 
 const showAddVenue = () => {

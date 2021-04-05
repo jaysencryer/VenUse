@@ -1,8 +1,14 @@
+:root {
+    --venuse-color : lightsalmon;
+    --venuse-bkg-col : rgb(29,9,2);
+    --venuse-div-paper: white;
+}
+
 body {
     padding-top: 55px;
     font-family: "Yanone Kaffeesatz", sans-serif;
     font-size: 20px;
-    background-color: rgb(29, 9, 2);
+    background-color: var(--venuse-bkg-col);
 }
 
 .ven-content {
@@ -25,7 +31,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: lightsalmon;
+    background-color: var(--venuse-color);
     padding: 0;
     margin: 0;
 }
@@ -94,7 +100,7 @@ body {
     display: block;
     box-sizing: border-box;
     border-radius: 20px;
-    background-color: lightsalmon;
+    background-color: var(--venuse-color);
     max-width: 500px;
     min-width: 300px;
     padding: 5px;
@@ -113,58 +119,59 @@ body {
     box-sizing: border-box;
     width: 100%;
     border-radius: 8px;
-    background-color: white;
+    background-color: var(--venuse-div-paper);
     color: black;
     padding: 10px;
     margin: 5px auto;
 }
 
-@keyframes menu_drop {
-    from {
-        height: 0;
-        width: 100px;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    100% {
-        overflow: hidden;
-        height: 100px;
-    }
-}
 #profile_menu {
-    animation-name: menu_drop;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
     box-sizing: border-box;
     position: relative;
     top: -28px;
-    display: none;
     float: right;
+    display:block;
+    overflow: hidden;
     width: 100px;
+    height: 0px;
+    padding: 0;
+    background-color: var(--venuse-color);
+    border-radius: 5px;
+    transition: height .25s;
+}
+
+#profile_menu.show_menu {
     height: 100px;
     padding: 5px;
-    background-color: lightsalmon;
-    border-radius: 5px;
 }
 
-#profile_menu .hide {
-    animation-name: menu_drop;
-    animation-direction: reverse;
-    animation-duration: 0.2s;
-}
 
 #profile_menu ul {
+    display:none;
     list-style-type: none;
     margin: 0;
     padding: 3px;
 }
 
+#profile_menu.hide_menu {
+    display:none;
+}
+
+#profile_menu :is(a, a:visited) {
+    text-decoration: none;
+    color: black;
+}
+#profile_menu a:hover {
+
+    text-shadow: -1px -1px 2px rgb(202, 83, 83), 1px 1px 2px rgb(202, 83, 83);
+}
+
+
 .manage {
     display:block;
     width:95%;
     margin:10px auto;
-    background-color: white;
+    background-color: var(--venuse-div-paper);
     padding:5px;
     border-radius:5px;
 }
