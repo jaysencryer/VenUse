@@ -2,7 +2,7 @@
 
 {% block body %}
     <div id="add_venue_form" class="manage add_venue {{ add_venue_form }}">
-        <form id="add_venue_form" action='/add_venue' method="post"> 
+        <form id="venue_form" action='/add_venue' method="post"> 
             {% csrf_token %}
             <div class="ven-form">
                 Name:{{ven_form.name}}
@@ -14,6 +14,18 @@
                 Description:{{ven_form.description}}
             </div>
             <input type="submit" value="Register Venue"/>
+        </form>
+    </div>
+    <div id="add_room_form" class="manage add_room {{ add_room_form }}">
+        <form id="room_form" action='/add_room' method="post">
+            {% csrf_token %}
+            <div class="ven-form">
+                Name:{{room_form.name}}
+            </div>
+            <div class="ven-form">
+                Description:{{room_form.description}}
+            </div>
+            <input type="submit" value="Add Room"/>
         </form>
     </div>
     {% if venues %}

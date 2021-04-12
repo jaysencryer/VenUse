@@ -21,6 +21,11 @@ class VenueForm(ModelForm):
             'name': TextInput(attrs={'autocomplete': 'off', 'autofocus': 'on'}),
         }
 
+class RoomForm(ModelForm):
+
+    class Meta:
+        model = Room
+        fields = ['name', 'description']
 
 #########################################################
 ## Standard Views                                      ##
@@ -123,7 +128,8 @@ def add_venue(request):
         new_venue.save()
 
         return render(request, "VenUse/manage_venues.html", {
-            "add_venue": False,
+            "add_venue_form": "hide",
+            "add_room_form": "hide",
             "venues": venues,
         })
 
@@ -133,20 +139,28 @@ def add_venue(request):
 
         return render(request, "VenUse/manage_venues.html", {
             "add_venue_form": "show",
+            "add_room_form" : "hide",
             "ven_form": ven_form,
             "venues": venues,
         })
 
+@login_required
+def add_room(request):
+
+    # TODO - figure out how to get the Venue ID before adding the room
 
 @login_required
 def manage_venue(request):
     venues = Venue.objects.filter(user=request.user)
 
     ven_form = VenueForm()
+    room_form = RoomForm()
 
     return render(request, "VenUse/manage_venues.html", {
         "add_venue_form": "hide",
+        "add_room_form": "hide",
         "ven_form": ven_form,
+        "room_form": room_form,
         "venues": venues,
     })
 

@@ -10,15 +10,15 @@ def get_venue(request, venue_id):
     """
     GET: get_venue/<venue_id> - will retrieve json data for the venue, and return all room data
     """
-    if not venue_id:
-        # Some error in usage
-        return JsonResponse({"error":"get_venue must specify an id"}, status = 400)
+   
 
     if request.method == "GET":
-        venue = Venue.objects.get(pk=venue_id)
-
-        if venue:
-            rooms = Room.objects.all().filter(venue=venue).order_by("capacity")
+        try:
+            venue = Venue.objects.get(pk=venue_id)
+        except Venue.DoesNotExist:
+            return JsonResponse({"error":f"venue id:{venue_id} does not exist"}, status = 400)
+            
+        rooms = Room.objects.all().filter(venue=venue).order_by("capacity")
 
         response = [venue.serialize()]
         response.append([rooms.serialize() for room in rooms])
