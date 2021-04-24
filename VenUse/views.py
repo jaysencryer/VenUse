@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import ModelForm, TextInput
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .models import User, Venue, Room
 
@@ -25,7 +27,7 @@ class RoomForm(ModelForm):
 
     class Meta:
         model = Room
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'capacity']
 
 #########################################################
 ## Standard Views                                      ##
@@ -144,10 +146,7 @@ def add_venue(request):
             "venues": venues,
         })
 
-@login_required
-def add_room(request):
 
-    # TODO - figure out how to get the Venue ID before adding the room
 
 @login_required
 def manage_venue(request):

@@ -19,9 +19,35 @@ def get_venue(request, venue_id):
             return JsonResponse({"error":f"venue id:{venue_id} does not exist"}, status = 400)
             
         rooms = Room.objects.all().filter(venue=venue).order_by("capacity")
+        print(rooms)
 
         response = [venue.serialize()]
-        response.append([rooms.serialize() for room in rooms])
+        response.append([room.serialize() for room in rooms])
 
         return JsonResponse(response, safe=False)
         
+
+@csrf_exempt
+@login_required
+def add_room(request):
+    if request.method != "POST":
+        return JsonResponse({"error":"add_room is a POST only method"}, status=400)
+    
+    data = json.loads(request.body)
+
+    ven_id = data.get("venue_id")
+    name = data.get("name")
+    description = data.get("description","No Description")
+    capacity = data.get("capacity")
+
+    venue = Venue.objects.get(pk=ven_id)
+
+    # check that current user owns the venue
+    if venue.user != request.user:
+        return JsonReponse({"error":"User mismatch error!"}, status=400)
+
+    room = Room(name=name, description=description, venue=venue, capacity=capacity)
+
+    room.save()
+    
+    return JsonResponse({"message":"All good"}, status=200)

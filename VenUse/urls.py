@@ -8,12 +8,13 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("logout", views.logout_view, name="logout"),
     path("add_venue", views.add_venue, name="add_venue"),
-    path("add_room", views.add_room, name="add_room"),
+    
     path("manage", views.manage_venue, name="manage_venue"),
 
     # user urls
     path("Venue/<str:venurl>", views.show_venue, name="show_venue"),
 
     # api urls
+    path("add_room", api.add_room, name="add_room"),
     path("get_venue/<int:venue_id>", api.get_venue, name="get_venue"),
 ]

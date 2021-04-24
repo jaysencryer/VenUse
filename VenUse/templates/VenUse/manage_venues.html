@@ -17,7 +17,7 @@
         </form>
     </div>
     <div id="add_room_form" class="manage add_room {{ add_room_form }}">
-        <form id="room_form" action='/add_room' method="post">
+        <form id="room_form" >
             {% csrf_token %}
             <div class="ven-form">
                 Name:{{room_form.name}}
@@ -25,7 +25,10 @@
             <div class="ven-form">
                 Description:{{room_form.description}}
             </div>
-            <input type="submit" value="Add Room"/>
+            <div class="ven-form">
+                Capacity:{{room_form.capacity}}
+            </div>
+            <input type="submit" class="venue_detail_add_btn" name="add_room" value="Add Room"/>
         </form>
     </div>
     {% if venues %}

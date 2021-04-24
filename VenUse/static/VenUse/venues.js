@@ -28,10 +28,33 @@ const showAddVenue = () => {
     addVenueForm.style.display = "block";
 }
 
-const showAddRoom = () => {
-    console.log("Add room clicked");
-    const addRoomForm = document.querySelector('#add_room_form');
-    addRoomForm.style.display = "block";
+const showAddRoom = (venId) => {
+    console.log(`Add room clicked for venue ${venId}`);
+    const addRoomDiv = document.querySelector('#add_room_form');
+    addRoomDiv.style.display = "block";
+    const addRoomForm = addRoomDiv.querySelector('#room_form');
+    addRoomForm.onsubmit = () => {
+        addRoom(addRoomForm, venId);
+        return false;
+    }
+}
+
+const addRoom = async (roomForm, venId) => {
+    let roomName = roomForm.querySelector('#id_name').value;
+    let roomDescription = roomForm.querySelector('#id_description').value;
+    let roomCapacity = roomForm.querySelector('#id_capacity').value;
+    console.log(`adding room named : ${roomName}, ${roomDescription} capacity: ${roomCapacity} to venue id ${venId}`);
+    const data = await fetchApi('/add_room',{
+        method:'POST',
+        body: JSON.stringify ({
+            venue_id: venId,
+            name: roomName,
+            description: roomDescription,
+            capacity: roomCapacity,
+        })
+    });
+
+    return false;
 }
 
 const showVenueDetail = async (id) => {
@@ -78,14 +101,14 @@ const venueDisplay = async id => {
     const roomDiv = quickDOM('div','','venue_room_detail');
     if (rooms.length > 0){
         // We have rooms configured
-        rooms.map(room => roomDiv.append('p', room.name));
+        rooms.map(room => roomDiv.append(quickDOM('p', room.name)));
     } else {
         roomDiv.append(quickDOM('h3', 'You do not have any rooms configured for this Venue'));
-        const addRoomButton = quickDOM('button', 'Add Room', 'venue_detail_add_btn','add_room');
-        addRoomButton.id = 'add_room';
-        roomDiv.append(addRoomButton);
-        roomDiv.querySelector('#add_room').onclick = () => showAddRoom();
     }
+    const addRoomButton = quickDOM('button', 'Add Room', 'venue_detail_add_btn','add_room');
+    addRoomButton.id = 'add_room';
+    roomDiv.append(addRoomButton);
+    roomDiv.querySelector('#add_room').onclick = () => showAddRoom(id);
     
     container.append(venue);
     container.append(roomDiv);
@@ -95,10 +118,10 @@ const venueDisplay = async id => {
 
 
 
-const fetchApi = async (url) => {
+const fetchApi = async (url, body = {}) => {
     // TODO - fix error reporting
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, body);
         const data = await response.json();
         if (response.ok) {
             return data;
