@@ -1,3 +1,5 @@
+import{ quickDOM, fetchApi } from './utils.js';
+
 document.addEventListener("DOMContentLoaded", () => {
     // When page loads - check for user_id button, and set up profile menu
     const userHub = document.querySelector("#user_name");
@@ -24,19 +26,39 @@ const toggleProfileMenu = () => {
 };
 
 const showAddVenue = () => {
-    const addVenueForm = document.querySelector('#add_venue_form');
-    addVenueForm.style.display = "block";
+    const addVenueDiv = document.querySelector('#add_venue_form');
+    addVenueDiv.style.display = "block";
+    const addVenueForm = addVenueDiv.querySelector('#venue_form');
+    addVenueForm.querySelector("#id_name").focus();
+    addVenueForm.onsubmit = () => {
+        addVenue(addVenueForm);
+        addVenueDiv.style.display = "none";
+        return false;
+    }
 }
 
 const showAddRoom = (venId) => {
-    console.log(`Add room clicked for venue ${venId}`);
+    // console.log(`Add room clicked for venue ${venId}`);
     const addRoomDiv = document.querySelector('#add_room_form');
     addRoomDiv.style.display = "block";
     const addRoomForm = addRoomDiv.querySelector('#room_form');
+    addRoomForm.querySelector("#id_name").focus();
     addRoomForm.onsubmit = () => {
+        // Form completed - add the room to the database
         addRoom(addRoomForm, venId);
+        // Hide the add room div
+        addRoomDiv.style.display = "none";
         return false;
     }
+}
+
+
+const clearForm = formElement => {
+    // find any inputs in this form and clear them.
+    const inputs = formElement.querySelectorAll(input);
+    console.log("something here is the problem");
+    // inputs.forEach( i => i.value = '');
+    return false;
 }
 
 const addRoom = async (roomForm, venId) => {
@@ -53,6 +75,35 @@ const addRoom = async (roomForm, venId) => {
             capacity: roomCapacity,
         })
     });
+    // clear the form
+    roomForm.querySelector('#id_name').value = '';
+    roomForm.querySelector('#id_description').value = '';
+    roomForm.querySelector('#id_capacity').value = '';
+    // update the edit view
+    showVenueDetail(venId);
+
+    return false;
+}
+
+const addVenue = async venueForm => {
+    let venueName = venueForm.querySelector('#id_name').value;
+    let venueUrl = venueForm.querySelector('#id_url').value;
+    let venueDescription = venueForm.querySelector('#id_description').value;
+    const data = await fetchApi('/add_venue',{
+        method:'POST',
+        body: JSON.stringify ({
+            name: venueName,
+            url: venueUrl,
+            description: venueDescription,
+        })
+    });
+    console.log(data);
+
+    // clear the form
+    venueForm.querySelector('#id_name').value = '';
+    venueForm.querySelector('#id_url').value = '';
+    venueForm.querySelector('#id_description').value = '';
+    // update the main view
 
     return false;
 }
@@ -64,7 +115,9 @@ const showVenueDetail = async (id) => {
     venueDetail.style.display = "block";
     // disable edit buttons
     const editVenueButtons = document.querySelectorAll('.edit_venue');
-    toggleButtons(editVenueButtons);
+    if (!editVenueButtons[0].disabled) {
+        toggleButtons(editVenueButtons);
+    }
 
     const venElement = await venueDisplay(id);
     venueDetail.append(venElement);
@@ -76,6 +129,7 @@ const showVenueDetail = async (id) => {
     }
     venueDetail.append(closeBtn);
 }
+
 
 const venueDisplay = async id => {
     // fetch the venue(id) data from API, including rooms
@@ -117,27 +171,3 @@ const venueDisplay = async id => {
 }
 
 
-
-const fetchApi = async (url, body = {}) => {
-    // TODO - fix error reporting
-    try {
-        const response = await fetch(url, body);
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        } else {
-            return {"error":data.error || `${response.status}:${response.statusText}`};
-        }
-    } catch (err) {
-        console.log(err);
-        return {"error":err};
-    }
-}
-
-function quickDOM(tag, innerText = '', className = '', value = ''){
-    const newElement = document.createElement(tag);
-    className && newElement.classList.add(className);
-    newElement.innerText = innerText || '';
-    newElement.value = value || '';
-    return newElement;
-}

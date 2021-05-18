@@ -9,7 +9,7 @@
         <div class="user_venues">
             This will show all user venues. 
             {% if not user_venues %} 
-                You currently have no venues - <a href="/add_venue">click here</a> to add one. 
+                You currently have no venues - <a href="{% url 'manage_venue' 'add_venue' %}">click here</a> to add one. 
             {% else %} 
                 {% for venue in user_venues %}
                 <div class="display_venue">

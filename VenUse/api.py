@@ -31,7 +31,7 @@ def get_venue(request, venue_id):
 @login_required
 def add_room(request):
     if request.method != "POST":
-        return JsonResponse({"error":"add_room is a POST only method"}, status=400)
+        return JsonResponse({"error":"add_room is POST only"}, status=400)
     
     data = json.loads(request.body)
 
@@ -51,3 +51,23 @@ def add_room(request):
     room.save()
     
     return JsonResponse({"message":"All good"}, status=200)
+
+@csrf_exempt
+@login_required
+def add_venue(request):
+    if request.method != "POST":
+        return JsonResponse({"error":"add_room is POST only"}, status=400)
+
+    data = json.loads(request.body)
+
+    name = data.get("name")
+    url = data.get("url")
+    if url == "":
+        url = name.replace(" ","")
+    description = data.get("description")
+
+    new_venue = Venue(
+        user=request.user, name=name, url=url, description=description)
+    new_venue.save()
+
+    return JsonResponse({"message":"Venue added", "venue": new_venue.serialize()}, status=200)

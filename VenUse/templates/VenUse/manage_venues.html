@@ -2,6 +2,7 @@
 
 {% block body %}
     <div id="add_venue_form" class="manage add_venue {{ add_venue_form }}">
+        <h2>New Venue</h2>
         <form id="venue_form" action='/add_venue' method="post"> 
             {% csrf_token %}
             <div class="ven-form">
@@ -17,6 +18,7 @@
         </form>
     </div>
     <div id="add_room_form" class="manage add_room {{ add_room_form }}">
+        <h2>New Room</h2>
         <form id="room_form" >
             {% csrf_token %}
             <div class="ven-form">
