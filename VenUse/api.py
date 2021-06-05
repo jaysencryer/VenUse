@@ -10,7 +10,6 @@ def get_venue(request, venue_id):
     """
     GET: get_venue/<venue_id> - will retrieve json data for the venue, and return all room data
     """
-   
 
     if request.method == "GET":
         try:
@@ -71,3 +70,18 @@ def add_venue(request):
     new_venue.save()
 
     return JsonResponse({"message":"Venue added", "venue": new_venue.serialize()}, status=200)
+
+@csrf_exempt
+def get_availability(request, room_id):
+    # method must be get
+    if request.method != "GET":
+        return JsonResponse({"error":"get_availability is GET only"}, status=400)
+
+    # get the room from room_id
+    try:
+        room = Room.objects.get(pk=room_id)
+    except Room.DoesNotExist:
+            return JsonResponse({"error":f"room id:{room_id} does not exist"}, status = 400)
+            
+    # return room availability as a json object
+    return JsonResponse(room.availability.avail, status=200)  

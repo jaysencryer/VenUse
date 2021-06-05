@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from .availability import Availability, AvailField
 
 # Create your models here.
 
@@ -18,6 +19,7 @@ class Venue(models.Model):
     url = models.CharField(max_length=20, blank=True)
     description = models.TextField(blank=True)
     address = models.TextField(blank=True)
+    
 
     def serialize(self):
         return {
@@ -38,6 +40,7 @@ class Room(models.Model):
     name = models.CharField(max_length=50, blank=False)
     description = models.TextField(blank=True)
     capacity = models.IntegerField()
+    availability = AvailField(default="6666666")
 
     def serialize(self):
         return {
@@ -45,7 +48,26 @@ class Room(models.Model):
             "name": self.name,
             "description": self.description,
             "capacity": self.capacity,
+            "availability": self.availability.avail,
         }
 
     def __str__(self):
         return f"{self.venue.name} : {self.id}:{self.name}"
+
+class Booking(models.Model):
+    room = models.ForeignKey("Room", on_delete=models.SET_NULL, null=True, related_name="room_bookings")
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_bookings")
+    date = models.DateField(blank=False, null=False)
+
+    # slot = models.Slot(blank=False, null=False) # this will hold morning, afternoon, evening & day
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user.username,
+            "room": self.room.name,
+            "date": self.date,
+        }
+
+    def __str__(self):
+        return f"{self.id} : {self.user.username}, {self.room}, {self.date}"

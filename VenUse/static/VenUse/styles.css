@@ -220,3 +220,14 @@ body {
     display:inline-block;
     width:60%;
 }
+
+#add_room_form {
+    max-height:400px;
+    overflow:hidden;
+}
+
+.column {
+    width: 40%;
+    display:inline-block;
+    vertical-align: top;
+}

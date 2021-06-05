@@ -41,6 +41,16 @@ const showAddRoom = (venId) => {
     // console.log(`Add room clicked for venue ${venId}`);
     const addRoomDiv = document.querySelector('#add_room_form');
     addRoomDiv.style.display = "block";
+    const availForm = addRoomDiv.querySelector('#avail_form');
+    availForm.append(makeAvailForm({
+        "Monday":"6",
+        "Tuesday":"6",
+        "Wednesday":"6",
+        "Thursday":"6",
+        "Friday":"6",
+        "Saturday":"6",
+        "Sunday":"6",
+    }));
     const addRoomForm = addRoomDiv.querySelector('#room_form');
     addRoomForm.querySelector("#id_name").focus();
     addRoomForm.onsubmit = () => {
@@ -170,4 +180,40 @@ const venueDisplay = async id => {
     return container;
 }
 
+const makeAvailForm = (availability) => {
+    console.log(availability);
+    const formElement = quickDOM("div","","ven-form");
+    const availTable = quickDOM("table");
+    const slots = [
+        "Morning", 
+        "Afternoon", 
+        "Evening"
+    ];
+    const headerRow = quickDOM("tr"); 
+    headerRow.append(quickDOM("td"));
+    slots.forEach((slot) => {
+        console.log(`Adding ${slot} to table`);
+        headerRow.append(quickDOM("td",slot));
+    });
+    
+    availTable.append(headerRow);
+    for (const day in availability) {
+        // create the row which is the day, and checkbox for each slot
+        const newRow = quickDOM("tr");
+        newRow.append(quickDOM("td",day));
+        for (let slot = 4 ; slot > 0 ; slot = slot >> 1 ) {
+            const checkTD = quickDOM("td");
+            const box = document.createElement("input");
+            box.type="checkbox";
+            console.log(`${availability[day]} & ${slot} Result = ${parseInt(availability[day]) & parseInt(slot)}`);
+            box.checked = parseInt(availability[day]) & parseInt(slot);
+            box.name=`${day.slice(0,3).toLowerCase()}_${slot}`;
+            checkTD.append(box);
+            newRow.append(checkTD);
+        }
+        availTable.append(newRow);
 
+    }
+    formElement.append(availTable);
+    return formElement;
+}

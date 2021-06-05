@@ -18,17 +18,30 @@
         </form>
     </div>
     <div id="add_room_form" class="manage add_room {{ add_room_form }}">
+        
         <h2>New Room</h2>
         <form id="room_form" >
-            {% csrf_token %}
-            <div class="ven-form">
-                Name:{{room_form.name}}
+            <div class="column">
+                {% csrf_token %}
+                <div class="ven-form">
+                    Name:{{room_form.name}}
+                </div>
+                <div class="ven-form">
+                    Description:{{room_form.description}}
+                </div>
+                <div class="ven-form">
+                    Capacity:{{room_form.capacity}}
+                </div>
             </div>
-            <div class="ven-form">
-                Description:{{room_form.description}}
-            </div>
-            <div class="ven-form">
-                Capacity:{{room_form.capacity}}
+            <div class="column">
+                <div class="ven-form">
+                    Availability
+                    <div id="avail_form">
+
+                    </div>
+
+                    <!--{% include 'VenUse/availability_form.html' %}-->
+                </div>
             </div>
             <input type="submit" class="venue_detail_add_btn" name="add_room" value="Add Room"/>
         </form>
