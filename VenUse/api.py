@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 from .models import User, Venue, Room
+from .availability import Availability
 
 @login_required
 def get_venue(request, venue_id):
@@ -38,14 +39,14 @@ def add_room(request):
     name = data.get("name")
     description = data.get("description","No Description")
     capacity = data.get("capacity")
-
+    availability = Availability(data.get("availability"))
     venue = Venue.objects.get(pk=ven_id)
 
     # check that current user owns the venue
     if venue.user != request.user:
         return JsonReponse({"error":"User mismatch error!"}, status=400)
 
-    room = Room(name=name, description=description, venue=venue, capacity=capacity)
+    room = Room(name=name, description=description, venue=venue, capacity=capacity, availability=availability)
 
     room.save()
     
@@ -82,6 +83,6 @@ def get_availability(request, room_id):
         room = Room.objects.get(pk=room_id)
     except Room.DoesNotExist:
             return JsonResponse({"error":f"room id:{room_id} does not exist"}, status = 400)
-            
+
     # return room availability as a json object
     return JsonResponse(room.availability.avail, status=200)  

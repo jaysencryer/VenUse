@@ -25,14 +25,20 @@ class Availability:
             # empty constructor - set to default availability
             self.reset()
         elif len(args) == 1 and isinstance(args[0], str) and len(args[0]) == 7:
-            print(len(args[0]))
             # must be a string of 7 characters between 0-7
             avail_string=args[0]
             for day in range(7):
                 # print(DAY_OF_WEEK[day], avail_string[day])
                 self.set_avail(DAY_OF_WEEK[day], args[0][day])
+        elif len(args) == 1 and isinstance(args[0], dict):
+            # This could be an availability style object
+            try:
+                for day in DAY_OF_WEEK:
+                    self.set_avail(day, args[0][day])
+            except:
+                raise Exception('Invalid parameter in Availability constructor - must be an availability style object, 7 character string or empty')
         else:
-            raise Exception('Invalid parameter in Availability constructor - must be 7 character string or empty')
+            raise Exception('Invalid parameter in Availability constructor - must be an availability style object, 7 character string or empty')
         
     def reset(self):
         for key in DAY_OF_WEEK:

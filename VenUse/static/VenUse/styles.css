@@ -222,12 +222,12 @@ body {
 }
 
 #add_room_form {
-    max-height:400px;
+    /* max-height:400px; */
     overflow:hidden;
 }
 
 .column {
     width: 40%;
-    display:inline-block;
+    display:flex;
     vertical-align: top;
 }
