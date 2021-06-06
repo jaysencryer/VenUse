@@ -38,13 +38,18 @@ const showAddVenue = () => {
     }
 }
 
-const showAddRoom = (venId) => {
+const showAddRoom = (venId, roomObject = null) => {
     // console.log(`Add room clicked for venue ${venId}`);
     const addRoomDiv = document.querySelector('#add_room_form');
     addRoomDiv.style.display = "block";
     const availForm = addRoomDiv.querySelector('#avail_form');
-    availForm.append(makeAvailForm());
+    availForm.append(makeAvailForm(roomObject ? roomObject.availability : undefined));
     const addRoomForm = addRoomDiv.querySelector('#room_form');
+    if (roomObject) {
+        addRoomForm.querySelector('#id_name').value = roomObject.name;
+        addRoomForm.querySelector('#id_description').value = roomObject.description;
+        addRoomForm.querySelector('#id_capacity').value = roomObject.capacity;
+    }
     addRoomForm.querySelector("#id_name").focus();
     addRoomForm.onsubmit = () => {
         // Form completed - add the room to the database
@@ -75,7 +80,6 @@ const addRoom = async (roomForm, venId) => {
             availability: roomAvailability,
         })
     });
-    console.log(data);
     // clear the form once we're happy update has happened.
     if (data.status === 200){
         roomForm.querySelector('#id_name').value = '';
@@ -159,7 +163,14 @@ const venueDisplay = async id => {
     const roomDiv = quickDOM('div','','venue_room_detail');
     if (rooms.length > 0){
         // We have rooms configured
-        rooms.map(room => roomDiv.append(quickDOM('p', room.name)));
+        rooms.map(room => { 
+            const roomDetail = quickDOM('div', room.name);
+            const editButton = quickDOM('button','Edit','btn');
+            editButton.id = `room_${room.id}`;
+            editButton.onclick = () => showAddRoom(id,room);
+            roomDetail.append(editButton);
+            roomDiv.append(roomDetail);
+        });
     } else {
         roomDiv.append(quickDOM('h3', 'You do not have any rooms configured for this Venue'));
     }
