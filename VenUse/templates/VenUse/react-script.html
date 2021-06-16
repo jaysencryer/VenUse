@@ -1,0 +1,20 @@
+{% load static %}  
+
+<link href="{% static 'VenUse/react/components/react.css' %}" rel="stylesheet">
+
+<!-- Development only! Add new React components to react.py list react_components -->
+{% for component in react_components %}
+  <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="{% static 'VenUse/react/components/'|add:component|add:'.jsx' %}"></script>
+{% endfor %}
+<script data-plugins="transform-es2015-modules-umd" type="text/babel">
+    import Venue from "{% static 'VenUse/react/components/Venue.jsx' %}";
+
+    const venue = {
+      name: "{{venue.name}}",
+      id: {{venue.id}},
+      description: `{{venue.description}}`
+    };
+
+    ReactDOM.render(<Venue venue={venue} />, document.querySelector('#venue-container'));
+
+</script>

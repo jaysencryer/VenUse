@@ -1,12 +1,20 @@
 {% extends "VenUse/layout.html" %}
+{% load static %}
+{% block scripts %}
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+{% endblock %}
 
 {% block title %}
     {{ venue.name }}
 {% endblock %}
 {% block body %}
     {% if venue %}
-        <div class="venue">
-            <h1>{{ venue.name }}</h1>
-        </div>
+        <div id="venue-container"></div>
     {% endif %}
+{% endblock %}
+
+{% block react-script %}
+    {% include 'VenUse/react-script.html' %}
 {% endblock %}

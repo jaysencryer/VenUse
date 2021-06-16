@@ -24,7 +24,7 @@
         This will show featured or popular venues 
         {% for venue in feat_venues %}
             <div>
-                {{ venue.name }}
+                <a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a>
             </div>
         {% endfor %}
     </div>

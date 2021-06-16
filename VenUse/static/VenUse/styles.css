@@ -231,3 +231,8 @@ body {
     display:flex;
     vertical-align: top;
 }
+
+#venue-container {
+    display: block;
+    background-color: var(--venuse-div-paper);
+}

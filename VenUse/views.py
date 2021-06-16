@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 from .models import User, Venue, Room
+from .react import react_components
 
 #
 
@@ -54,21 +55,28 @@ def index(request):
 
 
 def login_view(request):
+    next_view = request.GET.get('next','').strip('/')
+
     if request.method == 'POST':
         username = request.POST["username"]
         password = request.POST["password"]
+        next_view = request.POST["next"]
         user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            print(next_view)
+            if next_view:
+                return HttpResponseRedirect(next_view)
+            else:
+                return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "VenUse/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "VenUse/login.html")
+        return render(request, "VenUse/login.html", { "next": next_view })
 
 
 def register(request):
@@ -114,40 +122,6 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-# @login_required
-# def add_venue(request):
-#     venues = Venue.objects.filter(user=request.user)
-
-#     if request.method == 'POST':
-#         print(f"Adding Venue name {request.POST['name']}")
-#         if request.POST["url"] == "":
-#             url = request.POST["name"].replace(" ","")
-#         else:
-#             url = request.POST["url"]
-
-#         new_venue = Venue(
-#             user=request.user, name=request.POST["name"], url=url, description=request.POST["description"])
-#         new_venue.save()
-
-#         return render(request, "VenUse/manage_venues.html", {
-#             "add_venue_form": "hide",
-#             "add_room_form": "hide",
-#             "venues": venues,
-#         })
-
-    # else:
-
-    #     ven_form = VenueForm()
-
-    #     return render(request, "VenUse/manage_venues.html", {
-    #         "add_venue_form": "show",
-    #         "add_room_form" : "hide",
-    #         "ven_form": ven_form,
-    #         "venues": venues,
-    #     })
-
-
-
 @login_required
 def manage_venue(request, form_view = "none"):
     venues = Venue.objects.filter(user=request.user)
@@ -169,7 +143,10 @@ def show_venue(request, venurl):
     Shows the venue home page for <str:venurl>, as navigated to by venue/<venurl>
     """
     venue = Venue.objects.get(url=venurl)
+    for comp in react_components:
+        print(comp)
 
     return render(request, "VenUse/default_venue.html", {
         "venue": venue,
+        "react_components": react_components,
     })

@@ -1,9 +1,11 @@
 from django.urls import path
+from django.conf.urls import url
 
 from . import views, api
 
 urlpatterns = [
     path("", views.index, name="index"),
+    url(r'^login/$', views.login_view, name="login"),
     path("login", views.login_view, name="login"),
     path("register", views.register, name="register"),
     path("logout", views.logout_view, name="logout"),

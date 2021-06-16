@@ -43,6 +43,7 @@ const showAddRoom = (venId, roomObject = null) => {
     const addRoomDiv = document.querySelector('#add_room_form');
     addRoomDiv.style.display = "block";
     const availForm = addRoomDiv.querySelector('#avail_form');
+    availForm.innerHTML=''; // Clear any lingering availabilities
     availForm.append(makeAvailForm(roomObject ? roomObject.availability : undefined));
     const addRoomForm = addRoomDiv.querySelector('#room_form');
     if (roomObject) {
@@ -53,9 +54,9 @@ const showAddRoom = (venId, roomObject = null) => {
     addRoomForm.querySelector("#id_name").focus();
     addRoomForm.onsubmit = () => {
         // Form completed - add the room to the database
-        addRoom(addRoomForm, venId);
-        // Hide the add room div
-        addRoomDiv.style.display = "none";
+        // or if there's a room object update it
+        addRoom(addRoomForm, venId, roomObject ? roomObject.id : undefined);
+        
         return false;
     }
 }
@@ -63,16 +64,19 @@ const showAddRoom = (venId, roomObject = null) => {
 
 
 
-const addRoom = async (roomForm, venId) => {
+const addRoom = async (roomForm, venId, roomId = null) => {
     let roomName = roomForm.querySelector('#id_name').value;
     let roomDescription = roomForm.querySelector('#id_description').value;
     let roomCapacity = roomForm.querySelector('#id_capacity').value;
     let roomAvailability = await getAvailability(roomForm.querySelector('#avail_form'));
     // console.log(roomAvailability);
     // console.log(`adding room named : ${roomName}, ${roomDescription} capacity: ${roomCapacity} to venue id ${venId}`);
+
+    const apiMethod = roomId ? 'PUT' : 'POST';  // If we have a room Id already we are updating the info
     const data = await fetchApi('/add_room',{
-        method:'POST',
+        method: apiMethod,
         body: JSON.stringify ({
+            room_id: roomId,
             venue_id: venId,
             name: roomName,
             description: roomDescription,
@@ -81,15 +85,18 @@ const addRoom = async (roomForm, venId) => {
         })
     });
     // clear the form once we're happy update has happened.
-    if (data.status === 200){
+    console.log(data);
+    if (!("error" in data)){
         roomForm.querySelector('#id_name').value = '';
         roomForm.querySelector('#id_description').value = '';
         roomForm.querySelector('#id_capacity').value = '';
         roomForm.querySelector('#avail_form').innerHTML = '';
+        // Hide the form        
+        document.querySelector('#add_room_form').style.display = "none";
+        // update the edit view
+        showVenueDetail(venId);
     }
-    // update the edit view
-    showVenueDetail(venId);
-
+    
     return false;
 }
 

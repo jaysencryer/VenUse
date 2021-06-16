@@ -19,6 +19,7 @@
         <div class="ven-form">
             <input class="ven-btn" type="submit" value="Login">
         </div>
+        <input type="hidden" name="next" value="{{next}}">
     </form>
     <div class="info">
         Don't have an account? <a href="{% url 'register' %}">Register here.</a>
