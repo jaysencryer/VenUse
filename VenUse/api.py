@@ -19,10 +19,15 @@ def get_venue(request, venue_id):
             return JsonResponse({"error":f"venue id:{venue_id} does not exist"}, status = 400)
             
         rooms = Room.objects.all().filter(venue=venue).order_by("capacity")
-        print(rooms)
-
+        bookings = {}
+        for room in rooms:
+            books = room.room_bookings.all()
+            if books:
+                bookings[room.id] = [book.serialize() for book in books]
+        
         response = [venue.serialize()]
         response.append([room.serialize() for room in rooms])
+        response.append(bookings)
 
         return JsonResponse(response, safe=False)
         

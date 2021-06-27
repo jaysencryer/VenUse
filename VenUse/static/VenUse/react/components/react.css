@@ -74,12 +74,18 @@
 
 .VENUE_modal_content {
     background-color: white;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     border-radius: 4px;
     width: 40%;
-    height: 400px;
+    height: fit-content;
+}
+
+.VENUE_modal_title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .VENUE_close_modal {
@@ -88,4 +94,50 @@
     outline: none;
     background-color: white;
     /* box-shadow: 0 0 6px black; */
+    cursor: pointer;
+}
+
+.AVAIL_header {
+    font-size: 20px;
+    text-align: center;
+}
+.AVAIL_calendar {
+    margin: auto;
+    width:fit-content;
+}
+
+[class^='AVAIL_day'] {
+    display: inline-block;
+    height: 70px;
+    width: 60px;
+    background-color : lightblue;
+    margin: 3px;
+    vertical-align: top;
+}
+
+.AVAIL_day_head {
+    background-color: cadetblue;
+    height: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 12px;
+}
+.AVAIL_day_no {
+    background-color : #333;
+}
+
+.clicker {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.month_name {
+    display:inline-block;
+    width: 60px;
+}
+
+.show_year {
+    display:inline-block;
+    width: 40px;
 }

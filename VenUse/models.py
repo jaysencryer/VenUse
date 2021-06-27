@@ -58,16 +58,17 @@ class Booking(models.Model):
     room = models.ForeignKey("Room", on_delete=models.SET_NULL, null=True, related_name="room_bookings")
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_bookings")
     date = models.DateField(blank=False, null=False)
-
-    # slot = models.Slot(blank=False, null=False) # this will hold morning, afternoon, evening & day
+    slot = models.IntegerField(blank=False, null=False) # this can be 1, 2, 3, 4, 6 or 7 (eve, aft, aft & eve, morn, morn & aft, all slots) 5 not allowed!
 
     def serialize(self):
+
         return {
             "id": self.id,
             "user": self.user.username,
             "room": self.room.name,
             "date": self.date,
+            "slot": self.slot,
         }
 
     def __str__(self):
-        return f"{self.id} : {self.user.username}, {self.room}, {self.date}"
+        return f"{self.id} : {self.user.username}, {self.room}, {self.date}, " + ("Morn, " if self.slot & 4 else "")  + ("Afternoon, " if self.slot & 2 else "")  + ("Eve, " if self.slot & 1 else "")

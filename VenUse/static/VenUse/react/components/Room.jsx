@@ -1,7 +1,7 @@
 import Modal from "./Modal.jsx";
 import AvailabilityCalendar from "./AvailabilityCalendar.jsx";
 
-function Room({ room }) {
+function Room({ room, bookings }) {
     const [loadBooking, setLoadBooking] = React.useState(false);
 
     const clickHandler = () => {
@@ -23,9 +23,8 @@ function Room({ room }) {
                         Book This Room
                     </button>
                 </div>
-                {loadBooking && <Modal onClose={() => setLoadBooking(false)}>
-                    {room.name}
-                    <AvailabilityCalendar />
+                {loadBooking && <Modal title={room.name} onClose={() => setLoadBooking(false)}>
+                    <AvailabilityCalendar availObj={room.availability} bookings={bookings}/>
                 </Modal>}
             </div>
     );
