@@ -4,10 +4,13 @@
 # if a component imports another component it must appear after it in the list
 
 react_components = (
+    "ShowAvail",
     "MonthSelect",
+    "Calendar/Day",
+    "Calendar/Calendar",
     "AvailDay",
-    "AvailabilityCalendar",
     "Modal",
+    "AvailabilityCalendar",
     "Room",
     "ShowRooms",
     "VenueTitle",
