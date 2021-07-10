@@ -1,0 +1,48 @@
+.cal_calendar {
+    margin: auto;
+    width:fit-content;
+}
+
+.cal_header {
+    font-size: 20px;
+    text-align: center;
+}
+
+
+[class^='cal_day'] {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 80px;
+    width: 70px;
+    background-color : lightblue;
+    margin: 3px;
+    vertical-align: top;
+    padding: 7px;
+}
+
+.cal_day_head {
+    background-color: cadetblue;
+    height: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 12px;
+}
+
+.cal_day_no {
+    background-color : #333;
+}
+
+.cal_active_day {
+    /* border: 1px solid orange; */
+    background-color : rgb(143, 229, 255);
+    box-shadow: 0 0 6px rgb(111, 202, 230);
+    padding:4px;
+}
+
+.cal_active_date {
+    /* font-weight: bold; */
+    color:white;
+    background-color: black;
+    border-radius: 8px;
+    padding: 1px 4px;
+}
