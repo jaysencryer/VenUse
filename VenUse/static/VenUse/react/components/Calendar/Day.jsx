@@ -6,7 +6,7 @@ const Day = ({ date, children, active }) => {
             <span className={ `${
                 active ? "cal_active_date" : ""
             }`}>
-            {date ? date : ""}
+            {date ? date : "" }
             </span>
             {children}
         </div>
