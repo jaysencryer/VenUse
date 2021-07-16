@@ -1,7 +1,7 @@
 import BookSlots from "./BookSlots";
 import Modal from "./Modal";
 
-const AvailIcon = ({ avail, bookedSlots, size }) => {
+const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     const strokeWidth = 3;
     // This is for evening availability
     let borderColor = "rgb(255,0,0)";
@@ -25,7 +25,7 @@ const AvailIcon = ({ avail, bookedSlots, size }) => {
     }
 
     return (
-        <div>
+        <div onClick={onClick}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height={size + strokeWidth}
@@ -120,25 +120,23 @@ const ShowAvail = ({ avail, date, bookings }) => {
         setOpenBookingModal(true);
     };
 
-    console.log(Modal);
 
     return (
         <div
-            className={`AVAIL_icon ${avail ? "AVAIL_clickable" : ""}`}
-            onClick={() => handleAvailClick()}
+            className={`AVAIL_icon ${avail != 0 ? "AVAIL_clickable" : ""}`}
+            
         >
-            <AvailIcon size={26} avail={avail} booked={bookedValue} />
+            <AvailIcon size={26} avail={avail} booked={bookedValue} onClick={handleAvailClick} />
             {openBookingModal && (
-                <Modal
-                    title="Book Room"
-                    onClose={() => setOpenBookingModal(false)}
-                >
+                
                     <BookSlots
                         avail={avail}
                         booked={booked}
                         bookings={bookings}
+                        closeBookingModal={() => {
+                            setOpenBookingModal(false);}}
                     />
-                </Modal>
+                
             )}
         </div>
     );

@@ -65,7 +65,7 @@ class Booking(models.Model):
         return {
             "id": self.id,
             "user": self.user.username,
-            "room": self.room.name,
+            "room": self.room.id,
             "date": self.date,
             "slot": self.slot,
         }

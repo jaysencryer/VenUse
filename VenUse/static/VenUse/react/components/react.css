@@ -135,6 +135,10 @@
     text-align: center;
 }
 
+.AVAIL_clickable {
+    cursor: pointer;
+}
+
 .clicker {
     border: none;
     background: none;
@@ -149,4 +153,24 @@
 .show_year {
     display:inline-block;
     width: 40px;
+}
+
+.BOOKING_modal {
+    position: relative;
+    top: -100px;
+    left: -20px;
+    width:250px;
+    height:150px;
+    padding: 5px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    box-shadow: 10px 10px 4px rgba(100,100,100,.8);
+    background-color: rgb(236, 252, 253);
+}
+
+.BOOKING_close {
+    cursor: pointer;
+    float:right;
+    font-size: larger;
+    font-stretch: wider;
 }
