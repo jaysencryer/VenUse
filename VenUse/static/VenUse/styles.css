@@ -90,12 +90,16 @@ body {
     border-radius: 10px;
 }
 
-.ven-btn {
+[class ^="ven-btn"] {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 6px lightgray;
 }
 
+.ven-btn-sm {
+    padding: 6px;
+    font-size: small;
+}
 .login-register {
     display: block;
     box-sizing: border-box;

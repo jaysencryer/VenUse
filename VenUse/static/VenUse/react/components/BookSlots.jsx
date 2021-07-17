@@ -1,14 +1,106 @@
-import Modal from "./Modal";
+/*
+@param booked object - contains (id = booking id, date = date of booking, room = room id, user = bookings user name)
+@param avail int - contains 0-7 (excluding 5)
+@param closeBookingModal - function
+*/
 
-const BookSlots = ({ avail, booked, bookings, closeBookingModal }) => {
-    console.log(bookings[0].room);
+const BookSlots = ({ avail, booked, bookedValue, closeBookingModal, date }) => {
+    const [bookingDisabled, setBookingDisabled] = React.useState(false);
+
+    const canSlotBeBooked = slot => {
+        /* slots can only be booked contiguously - 
+        e.g. Morning, Afternoon, Evening,
+            Morning, Afteroon
+            Afternoon, Evening
+            NOT - Morning, Evening
+        */
+        const checkedSlots = document.querySelectorAll(
+            "input[type='checkbox']"
+        );
+
+        let slotScore = 0;
+
+        if( slot === -1 && checkedSlots.length > 0 ) {
+            // this is the book this room check
+            slotScore += checkedSlots[0].checked ? 4 : 0;
+            slotScore += checkedSlots[1].checked ? 2 : 0;
+            slotScore += checkedSlots[2].checked ? 1 : 0;
+        
+            return slotScore === 5 ? false : true;
+        }
+
+        return avail & slot && bookedValue && slot ? true : false;
+    };
+
+    // React.useEffect(() => {
+    //     // Intial load - set the slots up
+    //     setSlotDisabled({
+    //         4: !canSlotBeBooked(4),
+    //         2: !canSlotBeBooked(2),
+    //         1: !canSlotBeBooked(1),
+    //     });
+    // }, []);
+
     return (
         <div className="BOOKING_modal">
-            <span className="BOOKING_close" onClick={closeBookingModal}>x</span>
-            {/* TODO - figure out if a user is even logged in - session storage? */}
-            <p>{`Morning ${avail & 4 ? '': 'unavailable' }`}</p>
-            <p>{`Afternoon ${avail & 2 ? '' : 'unavailable'}`}</p>
-            <p>{`Evening ${avail & 1 ? '' : 'unavailable'}`}</p>
+            <span className="BOOKING_close" onClick={closeBookingModal}>
+                x
+            </span>
+                <div className="BOOKING_modal_content">
+                    <h3>{date.toLocaleDateString()}</h3>
+                    <h4>Select the slot(s) you would like.</h4>
+                    <table width="100%">
+                        <tbody>
+                            <tr className="BOOKING_modal_slot">
+                                <td>Morning</td>
+                                <td>8am - 12pm</td>
+                                <td style={{ textAlign: "left" }}>
+                                    <input
+                                        type="checkbox"
+                                        id="bookMorning"
+                                        onClick={() => setBookingDisabled(!canSlotBeBooked(-1))}
+                                        disabled={!canSlotBeBooked(4)}
+                                        />
+                                </td>
+                            </tr>
+                            <tr className="BOOKING_modal_slot">
+                                <td>Afternoon</td>
+                                <td>1pm - 5pm</td>
+                                <td style={{ textAlign: "left" }}>
+                                    <input
+                                        type="checkbox"
+                                        id="bookAfternoon"
+                                        onClick={() => setBookingDisabled(!canSlotBeBooked(-1))}
+                                        disabled={!canSlotBeBooked(2)}
+                                        />
+                                </td>
+                            </tr>
+                            <tr className="BOOKING_modal_slot">
+                                <td>Evening</td>
+                                <td>6pm - 10pm</td>
+                                <td style={{ textAlign: "left" }}>
+                                    <input
+                                        type="checkbox"
+                                        id="bookEvening"
+                                        onClick={() => setBookingDisabled(!canSlotBeBooked(-1))}
+                                        disabled={!canSlotBeBooked(1)}
+                                        />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={3} style={{ textAlign: "center" }}>
+                                    <button
+                                        type="button"
+                                        className="ven-btn-sm"
+                                        disabled={bookingDisabled}
+                                    >
+                                        Make Booking
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     );
 };

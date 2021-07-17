@@ -1,14 +1,13 @@
 import BookSlots from "./BookSlots";
-import Modal from "./Modal";
 
 const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     const strokeWidth = 3;
     // This is for evening availability
     let borderColor = "rgb(255,0,0)";
     // this is for morning availability
-    let topColor = "rgb(100,100,100)";
+    let topColor = "rgba(100,100,100,0)";
     // this is for afternoon availability
-    let bottomColor = "rgb(100,100,100)";
+    let bottomColor = "rgba(100,100,100,0)";
 
     // avail can be 0 - 7 (but not 5)
     if (avail & 1) {
@@ -110,33 +109,53 @@ const ShowAvail = ({ avail, date, bookings }) => {
         booked.push({ slot: 0 });
     }
 
+    const dateIsInPast = () => {
+        const today = new Date();
+        if (date.getFullYear() >= today.getFullYear()) {
+            if (date.getMonth() > today.getMonth()) {
+                return false;
+            } else if (date.getMonth() === today.getMonth()) {
+                return date.getDate() < today.getDate() ? true : false;
+            }
+        }
+        return true;
+    };
+
     // find total of booked slots
     const bookedValue = booked.reduce((a, b) => a + b.slot);
 
     const handleAvailClick = () => {
-        if (avail == 0) {
+        if (avail == 0 || dateIsInPast()) {
+            console.log(dateIsInPast());
             return;
         }
         setOpenBookingModal(true);
     };
 
-
     return (
         <div
-            className={`AVAIL_icon ${avail != 0 ? "AVAIL_clickable" : ""}`}
-            
+            className={`AVAIL_icon ${
+                avail == 0 || dateIsInPast() ? "" : "AVAIL_clickable"
+            }`}
         >
-            <AvailIcon size={26} avail={avail} booked={bookedValue} onClick={handleAvailClick} />
+            {!dateIsInPast() && (
+                <AvailIcon
+                    size={26}
+                    avail={avail}
+                    booked={bookedValue}
+                    onClick={handleAvailClick}
+                />
+            )}
             {openBookingModal && (
-                
-                    <BookSlots
-                        avail={avail}
-                        booked={booked}
-                        bookings={bookings}
-                        closeBookingModal={() => {
-                            setOpenBookingModal(false);}}
-                    />
-                
+                <BookSlots
+                    avail={avail}
+                    booked={booked}
+                    bookedValue={bookedValue}
+                    date={date}
+                    closeBookingModal={() => {
+                        setOpenBookingModal(false);
+                    }}
+                />
             )}
         </div>
     );

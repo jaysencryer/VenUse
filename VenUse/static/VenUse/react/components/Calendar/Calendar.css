@@ -46,3 +46,9 @@
     border-radius: 8px;
     padding: 1px 4px;
 }
+
+@media (max-width:580px) {
+    [class^='cal_day'] {
+        width: 14%;
+    }
+}
