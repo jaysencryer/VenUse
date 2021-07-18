@@ -32,14 +32,17 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
 
         if( slot === -1 ) {
             // this is the book this room check
-            return getSlotScore() === 5 ? false : true;
+            return getSlotScore() === 5 || getSlotScore() === 0 ? false : true;
         }
 
-        return (avail & slot) && (bookedValue & slot) ? true : false;
+        return (avail & slot) && (bookedValue & slot) !== slot ? true : false;
     };
 
 
     const makeBooking = async () => {
+        if (!canSlotBeBooked(-1)) {
+            return;
+        }
         const sendDate = date.toLocaleDateString().split('/').reverse();
         const data = await fetch('/make_booking', {
             method: 'post',

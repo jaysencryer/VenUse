@@ -17,11 +17,11 @@ const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     }
     if (avail & 2) {
         // morning is available, is it booked or not
-        topColor = bookedSlots & 2 ? "rgb(255,200,0)" : "rgb(0,255,0)";
+        topColor = bookedSlots & 4 ? "rgb(255,200,0)" : "rgb(0,255,0)";
     }
     if (avail & 4) {
         // afternoon is available, is it booked or not
-        bottomColor = bookedSlots & 4 ? "rgb(255,200,0)" : "rgb(0,255,0)";
+        bottomColor = bookedSlots & 2 ? "rgb(255,200,0)" : "rgb(0,255,0)";
     }
 
     return (
@@ -113,7 +113,7 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
     const dateIsInPast = () => {
         const today = new Date();
         if (date.getFullYear() >= today.getFullYear()) {
-            if (date.getMonth() > today.getMonth()) {
+            if (date.getMonth() > today.getMonth() || date.getFullYear() > today.getFullYear()) {
                 return false;
             } else if (date.getMonth() === today.getMonth()) {
                 return date.getDate() < today.getDate() ? true : false;
@@ -126,8 +126,7 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
     const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
 
     const handleAvailClick = () => {
-        if (avail == 0 || dateIsInPast()) {
-            console.log(dateIsInPast());
+        if (avail == 0 || dateIsInPast() || bookedValue == avail) {
             return;
         }
         setOpenBookingModal(true);
@@ -136,7 +135,8 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
     return (
         <div
             className={`AVAIL_icon ${
-                avail == 0 || dateIsInPast() ? "" : "AVAIL_clickable"
+                // Only clickable if it's available, not booked and not in the past
+                avail == 0 || bookedValue == avail || dateIsInPast() ? "" : "AVAIL_clickable"
             }`}
         >
             {!dateIsInPast() && (

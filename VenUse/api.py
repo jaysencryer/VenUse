@@ -147,6 +147,13 @@ def make_booking(request):
     if not (int(slot) & int(room_avail)) == int(slot):
         return JsonResponse({"error": "Slot not in room availability"}, status=400)
 
+    # TODO
+    # make sure slot isn't already booked
+    dup_booking = Booking.objects.filter(date=booked_date)
+    for booking in dup_booking:
+        if booking.slot & int(slot) == int(slot):
+            # slot is already booked for this date
+            return JsonResponse({"error": "Slot already booked for this date"}, status=400)
 
     new_booking = Booking(
         user=request.user, room=booked_room, date=booked_date, slot=int(slot)
