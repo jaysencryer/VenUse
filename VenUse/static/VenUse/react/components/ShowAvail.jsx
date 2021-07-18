@@ -1,6 +1,7 @@
 import BookSlots from "./BookSlots";
 
 const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
+
     const strokeWidth = 3;
     // This is for evening availability
     let borderColor = "rgb(255,0,0)";
@@ -86,7 +87,7 @@ const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     );
 };
 
-const ShowAvail = ({ avail, date, bookings }) => {
+const ShowAvail = ({ avail, date, bookings, roomId }) => {
     const [openBookingModal, setOpenBookingModal] = React.useState(false);
 
     // convert current calendar date
@@ -122,7 +123,7 @@ const ShowAvail = ({ avail, date, bookings }) => {
     };
 
     // find total of booked slots
-    const bookedValue = booked.reduce((a, b) => a + b.slot);
+    const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
 
     const handleAvailClick = () => {
         if (avail == 0 || dateIsInPast()) {
@@ -142,7 +143,7 @@ const ShowAvail = ({ avail, date, bookings }) => {
                 <AvailIcon
                     size={26}
                     avail={avail}
-                    booked={bookedValue}
+                    bookedSlots={bookedValue}
                     onClick={handleAvailClick}
                 />
             )}
@@ -150,6 +151,7 @@ const ShowAvail = ({ avail, date, bookings }) => {
                 <BookSlots
                     avail={avail}
                     booked={booked}
+                    roomId={roomId}
                     bookedValue={bookedValue}
                     date={date}
                     closeBookingModal={() => {

@@ -4,8 +4,23 @@
 @param closeBookingModal - function
 */
 
-const BookSlots = ({ avail, booked, bookedValue, closeBookingModal, date }) => {
+const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date }) => {
     const [bookingDisabled, setBookingDisabled] = React.useState(false);
+
+    const getSlotScore = () => {
+        const checkedSlots = document.querySelectorAll(
+            "input[type='checkbox']"
+        );
+
+        let slotScore = 0;
+        if ( checkedSlots.length > 0 ){
+            slotScore += checkedSlots[0].checked ? 4 : 0;
+            slotScore += checkedSlots[1].checked ? 2 : 0;
+            slotScore += checkedSlots[2].checked ? 1 : 0;
+        
+            return slotScore;
+        }
+    }
 
     const canSlotBeBooked = slot => {
         /* slots can only be booked contiguously - 
@@ -14,32 +29,29 @@ const BookSlots = ({ avail, booked, bookedValue, closeBookingModal, date }) => {
             Afternoon, Evening
             NOT - Morning, Evening
         */
-        const checkedSlots = document.querySelectorAll(
-            "input[type='checkbox']"
-        );
 
-        let slotScore = 0;
-
-        if( slot === -1 && checkedSlots.length > 0 ) {
+        if( slot === -1 ) {
             // this is the book this room check
-            slotScore += checkedSlots[0].checked ? 4 : 0;
-            slotScore += checkedSlots[1].checked ? 2 : 0;
-            slotScore += checkedSlots[2].checked ? 1 : 0;
-        
-            return slotScore === 5 ? false : true;
+            return getSlotScore() === 5 ? false : true;
         }
 
-        return avail & slot && bookedValue && slot ? true : false;
+        return (avail & slot) && (bookedValue & slot) ? true : false;
     };
 
-    // React.useEffect(() => {
-    //     // Intial load - set the slots up
-    //     setSlotDisabled({
-    //         4: !canSlotBeBooked(4),
-    //         2: !canSlotBeBooked(2),
-    //         1: !canSlotBeBooked(1),
-    //     });
-    // }, []);
+
+    const makeBooking = async () => {
+        const sendDate = date.toLocaleDateString().split('/').reverse();
+        const data = await fetch('/make_booking', {
+            method: 'post',
+            body: JSON.stringify({
+                "slot": getSlotScore(),
+                "date": `${sendDate[0]}-${sendDate[2]}-${sendDate[1]}`,
+                "room_id" : roomId,
+            }),
+        })
+        const response = await data.json();
+        console.log(response);
+    }
 
     return (
         <div className="BOOKING_modal">
@@ -93,6 +105,7 @@ const BookSlots = ({ avail, booked, bookedValue, closeBookingModal, date }) => {
                                         type="button"
                                         className="ven-btn-sm"
                                         disabled={bookingDisabled}
+                                        onClick={() => makeBooking()}
                                     >
                                         Make Booking
                                     </button>

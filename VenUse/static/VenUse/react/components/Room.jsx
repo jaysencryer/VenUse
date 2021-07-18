@@ -36,7 +36,7 @@ function Room({ room, bookings }) {
             </div>
             {loadBooking && (
                 <Modal title={room.name} onClose={() => setLoadBooking(false)}>
-                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} />
+                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} roomId={room.id}/>
                 </Modal>
             )}
         </div>
