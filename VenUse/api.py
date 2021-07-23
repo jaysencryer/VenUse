@@ -2,7 +2,8 @@ import json
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 
 from .models import User, Venue, Room, Booking
 from .availability import Availability
@@ -88,19 +89,30 @@ def add_venue(request):
     if request.method != "POST":
         return JsonResponse({"error": "add_room is POST only"}, status=400)
 
-    data = json.loads(request.body)
-
-    name = data.get("name")
-    url = data.get("url")
+    # This route gets accessed by venues.js which sends json, AND directly from an html form, which doesn't
+    if "name" in request.POST:
+        django_post = True
+        name = request.POST["name"]
+        url = request.POST["url"]
+        description = request.POST["description"]
+    else:
+        django_post = False
+        data = json.loads(request.body)
+        name = data.get("name")
+        url = data.get("url")
+        description = data.get("description")
+    
     if url == "":
         url = name.replace(" ", "")
-    description = data.get("description")
 
     new_venue = Venue(
         user=request.user, name=name, url=url, description=description)
     new_venue.save()
 
-    return JsonResponse({"message": "Venue added", "venue": new_venue.serialize()}, status=200)
+    if django_post:
+        return HttpResponseRedirect(reverse("manage_venue"))
+    else:
+        return JsonResponse({"message": "Venue added", "venue": new_venue.serialize()}, status=200)
 
 
 @csrf_exempt
@@ -123,7 +135,7 @@ def get_availability(request, room_id):
 @login_required
 def make_booking(request):
     if request.method != "POST":
-        return JsonResponse({"error": "get_availability is POST only"}, status=400)
+        return JsonResponse({"error": "make_booking is POST only"}, status=400)
 
     data = json.loads(request.body)
 
@@ -139,7 +151,7 @@ def make_booking(request):
 
     # make sure that user isn't booking their own venue
     if request.user == booked_room.venue.user:
-        return JsonResponse({"error": "User is trying to book their own venue"}, status=400)
+        return JsonResponse({"error": "User may not book their own venue"}, status=400)
 
     # make sure booking slot(s) is not outside of availability
     booked_day = booked_date.strftime("%A")
@@ -161,3 +173,30 @@ def make_booking(request):
     new_booking.save()
 
     return JsonResponse({"message": "Slot booked succesffully", "Booking": new_booking.serialize()}, status=200)
+
+def get_bookings(request, room_id, date):
+    if request.method != 'GET':
+        return JsonResponse({"error": "get_bookings is GET only"}, status=400)
+
+    try:
+        room = Room.objects.get(pk=room_id)
+    except Room.DoesNotExist:
+        return JsonResponse({"error": f"room id:{room_id} does not exist"}, status=400)
+
+    date_text = date.split('-') # yyyy-mm-dd
+    date_of_booking = datetime.datetime(
+        int(date_text[0]), int(date_text[1]), int(date_text[2]))
+
+    
+    bookings = room.room_bookings.filter(date=date_of_booking)
+    
+    print(bookings)
+
+    if bookings:
+        bookings_response = [book.serialize() for book in bookings]
+    else:
+        bookings_response = {}
+        
+    return JsonResponse(bookings_response, safe=False, status=200)
+    
+    

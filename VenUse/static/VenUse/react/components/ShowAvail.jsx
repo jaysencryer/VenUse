@@ -1,7 +1,6 @@
 import BookSlots from "./BookSlots";
 
 const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
-
     const strokeWidth = 3;
     // This is for evening availability
     let borderColor = "rgb(255,0,0)";
@@ -110,10 +109,16 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
         booked.push({ slot: 0 });
     }
 
+    // find total of booked slots
+    const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
+
     const dateIsInPast = () => {
         const today = new Date();
         if (date.getFullYear() >= today.getFullYear()) {
-            if (date.getMonth() > today.getMonth() || date.getFullYear() > today.getFullYear()) {
+            if (
+                date.getMonth() > today.getMonth() ||
+                date.getFullYear() > today.getFullYear()
+            ) {
                 return false;
             } else if (date.getMonth() === today.getMonth()) {
                 return date.getDate() < today.getDate() ? true : false;
@@ -121,9 +126,6 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
         }
         return true;
     };
-
-    // find total of booked slots
-    const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
 
     const handleAvailClick = () => {
         if (avail == 0 || dateIsInPast() || bookedValue == avail) {
@@ -136,7 +138,9 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
         <div
             className={`AVAIL_icon ${
                 // Only clickable if it's available, not booked and not in the past
-                avail == 0 || bookedValue == avail || dateIsInPast() ? "" : "AVAIL_clickable"
+                avail == 0 || bookedValue == avail || dateIsInPast()
+                    ? ""
+                    : "AVAIL_clickable"
             }`}
         >
             {!dateIsInPast() && (
@@ -150,11 +154,10 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
             {openBookingModal && (
                 <BookSlots
                     avail={avail}
-                    booked={booked}
                     roomId={roomId}
                     bookedValue={bookedValue}
                     date={date}
-                    closeBookingModal={() => {
+                    closeBookingModal={newBookedValue => {
                         setOpenBookingModal(false);
                     }}
                 />

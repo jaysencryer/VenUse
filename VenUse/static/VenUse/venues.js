@@ -46,11 +46,14 @@ const showAddRoom = (venId, roomObject = null) => {
     availForm.innerHTML=''; // Clear any lingering availabilities
     availForm.append(makeAvailForm(roomObject ? roomObject.availability : undefined));
     const addRoomForm = addRoomDiv.querySelector('#room_form');
+
     if (roomObject) {
+        // We are editing an existing room
         addRoomForm.querySelector('#id_name').value = roomObject.name;
         addRoomForm.querySelector('#id_description').value = roomObject.description;
         addRoomForm.querySelector('#id_capacity').value = roomObject.capacity;
     }
+    
     addRoomForm.querySelector("#id_name").focus();
     addRoomForm.onsubmit = () => {
         // Form completed - add the room to the database

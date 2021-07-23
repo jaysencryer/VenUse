@@ -17,7 +17,7 @@ function ShowRooms({venId}){
 
     return (
         <div className="VENUE_rooms_container">
-            {rooms && rooms.map(room => <Room key={room.id} room={room} bookings={bookings[room.id]}/>)}
+            {rooms && rooms.map(room => <Room key={room.id} room={room} bookings={bookings[room.id]} setBookings={setBookings} />)}
         </div>
     );
 }

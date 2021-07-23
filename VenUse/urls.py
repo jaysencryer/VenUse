@@ -21,5 +21,6 @@ urlpatterns = [
     path("add_room", api.add_room, name="add_room"),
     path("get_venue/<int:venue_id>", api.get_venue, name="get_venue"),
     path("get_availability/<int:room_id>", api.get_availability, name="get_availability"),
-    path("make_booking", api.make_booking, name="make_booking")
+    path("make_booking", api.make_booking, name="make_booking"),
+    path("get_bookings/<int:room_id>/<str:date>", api.get_bookings, name="get_bookings")
 ]

@@ -1,7 +1,7 @@
 import Modal from "./Modal.jsx";
 import AvailabilityCalendar from "./AvailabilityCalendar.jsx";
 
-function Room({ room, bookings }) {
+function Room({ room, bookings, setBookings }) {
     const [loadBooking, setLoadBooking] = React.useState(false);
 
     // Determine if user is logged in
@@ -36,7 +36,7 @@ function Room({ room, bookings }) {
             </div>
             {loadBooking && (
                 <Modal title={room.name} onClose={() => setLoadBooking(false)}>
-                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} roomId={room.id}/>
+                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} setBookings={setBookings} roomId={room.id}/>
                 </Modal>
             )}
         </div>

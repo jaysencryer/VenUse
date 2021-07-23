@@ -5,7 +5,8 @@
 */
 
 const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date }) => {
-    const [bookingDisabled, setBookingDisabled] = React.useState(false);
+    const [bookingDisabled, setBookingDisabled] = React.useState(true);
+    const [message, setMessage] = React.useState('');
 
     const getSlotScore = () => {
         const checkedSlots = document.querySelectorAll(
@@ -41,6 +42,7 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
 
     const makeBooking = async () => {
         if (!canSlotBeBooked(-1)) {
+            // Slot could not be booked - this code should not be reachable
             return;
         }
         const sendDate = date.toLocaleDateString().split('/').reverse();
@@ -54,6 +56,11 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
         })
         const response = await data.json();
         console.log(response);
+        if (response.error) {
+            setMessage(response.error);
+            return;
+        }
+        closeBookingModal(bookedValue + getSlotScore());
     }
 
     return (
@@ -104,6 +111,7 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
                             </tr>
                             <tr>
                                 <td colSpan={3} style={{ textAlign: "center" }}>
+                                    {message && <span className="BOOKING_err_message">{message}</span>}
                                     <button
                                         type="button"
                                         className="ven-btn-sm"

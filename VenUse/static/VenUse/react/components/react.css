@@ -158,11 +158,18 @@
     width: 40px;
 }
 
+.BOOKING_err_message {
+    color: red;
+    font-size: 20px;
+    margin: 4px 4px;
+}
+
 .BOOKING_modal {
+    cursor: default;
     position: relative;
     top: -100px;
     left: -20px;
-    width:250px;
+    width:280px;
     height:auto;
     padding: 5px;
     /* border: 1px solid black; */
