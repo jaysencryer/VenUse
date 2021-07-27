@@ -10,14 +10,14 @@ const dayOfWeek = [
     "Saturday",
 ];
 
-const AvailDay = ({ date, availObj, bookings, setBookings, roomId }) => {
+const AvailDay = ({ date, availObj, bookings, setBookings, roomId, onBooked}) => {
 
     const day = dayOfWeek[date !== 0 ? date.getDay() : 0];
     return (
         // <div className={date === 0 ? "AVAIL_day_no" : "AVAIL_day"}>
         // <div className={`${availObj[day] == 0 && date ? "AVAIL_day_no" : ""}`}>
         <div>
-            {date ? <ShowAvail avail={availObj[day]} date={date} bookings={bookings} SetBookings={setBookings} roomId={roomId}/> : ""}
+            {date ? <ShowAvail avail={availObj[day]} date={date} bookings={bookings} SetBookings={setBookings} roomId={roomId} onBooked={onBooked}/> : ""}
             
 
         </div>

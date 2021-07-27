@@ -86,31 +86,35 @@ const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     );
 };
 
-const ShowAvail = ({ avail, date, bookings, roomId }) => {
+const ShowAvail = ({ avail, date, bookings, roomId, onBooked }) => {
     const [openBookingModal, setOpenBookingModal] = React.useState(false);
+    // const [bookedSlot, setBookedSlot] = React.useState(0);
 
-    // convert current calendar date
-    const testDate = date.toLocaleDateString().split("/").reverse();
+    // React.useState(() => {
+        // convert current calendar date
+        const testDate = date.toLocaleDateString().split("/").reverse();
 
-    // check all bookings for a match to current calendar date
-    const booked = bookings
-        ? bookings.filter(booking => {
-              const bookDate = booking.date.split("-");
-              return (
-                  parseInt(bookDate[0]) === parseInt(testDate[0]) &&
-                  parseInt(bookDate[1]) === parseInt(testDate[2]) &&
-                  parseInt(bookDate[2]) === parseInt(testDate[1])
-              );
-          })
-        : [];
+        // check all bookings for a match to current calendar date
+        const booked = bookings
+            ? bookings.filter(booking => {
+                  const bookDate = booking.date.split("-");
+                  return (
+                      parseInt(bookDate[0]) === parseInt(testDate[0]) &&
+                      parseInt(bookDate[1]) === parseInt(testDate[2]) &&
+                      parseInt(bookDate[2]) === parseInt(testDate[1])
+                  );
+              })
+            : [];
 
-    if (booked.length === 0) {
-        // no matches - create blank booked slot.
-        booked.push({ slot: 0 });
-    }
+        if (booked.length === 0) {
+            // no matches - create blank booked slot.
+            booked.push({ slot: 0 });
+        }
 
-    // find total of booked slots
-    const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
+        // find total of booked slots
+        const bookedValue = booked.reduce((a, b) => a + b.slot, 0);
+        // setBookedSlot(bookedValue);
+    // });
 
     const dateIsInPast = () => {
         const today = new Date();
@@ -157,8 +161,11 @@ const ShowAvail = ({ avail, date, bookings, roomId }) => {
                     roomId={roomId}
                     bookedValue={bookedValue}
                     date={date}
-                    closeBookingModal={newBookedValue => {
+                    closeBookingModal={() => {
+                        // setBookedSlot(newBookedValue);
                         setOpenBookingModal(false);
+                        onBooked();
+                        
                     }}
                 />
             )}

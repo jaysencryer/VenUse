@@ -11,6 +11,11 @@ function Room({ room, bookings, setBookings }) {
     const clickHandler = () => {
         setLoadBooking(true);
     };
+
+    const handleBookedSlot = () => {
+        setLoadBooking(false);
+    }
+
     return (
         <div className="VENUE_display_room" key={room.id}>
             <p className="VENUE_room_head">{room.name}</p>
@@ -36,7 +41,7 @@ function Room({ room, bookings, setBookings }) {
             </div>
             {loadBooking && (
                 <Modal title={room.name} onClose={() => setLoadBooking(false)}>
-                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} setBookings={setBookings} roomId={room.id}/>
+                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} setBookings={setBookings} roomId={room.id} onBooked={handleBookedSlot}/>
                 </Modal>
             )}
         </div>
