@@ -4,11 +4,11 @@ import Calendar from "./Calendar/Calendar.jsx";
 
 const today = new Date();
 
-function AvailabilityCalendar({ availObj, bookings, setBookings, roomId, onBooked }) {
+function AvailabilityCalendar({ availObj, roomId, bookings, onBooked }) {
     return (
         <div>
             <Calendar activeDate={today}>
-                <AvailDay availObj={availObj} bookings={bookings} setBookings={setBookings} roomId={roomId} onBooked={onBooked}/>
+                <AvailDay availObj={availObj} roomId={roomId} bookings={bookings} onBooked={onBooked}/>
                 
             </Calendar>
         </div>

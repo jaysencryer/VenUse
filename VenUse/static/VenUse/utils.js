@@ -12,7 +12,7 @@ export const fetchApi = async (url, body = {}) => {
             };
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return { error: err };
     }
 };

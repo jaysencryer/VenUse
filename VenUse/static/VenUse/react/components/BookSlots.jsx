@@ -55,7 +55,7 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
             }),
         })
         const response = await data.json();
-        console.log(response);
+        // console.log(response);
         if (response.error) {
             setMessage(response.error);
             return;

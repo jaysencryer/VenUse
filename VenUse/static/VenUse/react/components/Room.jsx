@@ -1,8 +1,9 @@
 import Modal from "./Modal.jsx";
 import AvailabilityCalendar from "./AvailabilityCalendar.jsx";
 
-function Room({ room, bookings, setBookings }) {
+function Room({ room }) {
     const [loadBooking, setLoadBooking] = React.useState(false);
+    const [bookings, setBookings] = React.useState([]);
 
     // Determine if user is logged in
     // if a div with the id 'user_name' is present they are.
@@ -12,7 +13,20 @@ function Room({ room, bookings, setBookings }) {
         setLoadBooking(true);
     };
 
+    const getBookings = async () => {
+        const data = await fetch(`/get_bookings/${room.id}`);
+        const response = await data.json();
+        // console.log(response);
+        setBookings([...response]);
+    }
+
+    React.useEffect(()=> {
+        getBookings();
+    },[]);
+    
     const handleBookedSlot = () => {
+        // Get new bookings
+        getBookings();
         setLoadBooking(false);
     }
 
@@ -41,7 +55,7 @@ function Room({ room, bookings, setBookings }) {
             </div>
             {loadBooking && (
                 <Modal title={room.name} onClose={() => setLoadBooking(false)}>
-                    <AvailabilityCalendar availObj={room.availability} bookings={bookings} setBookings={setBookings} roomId={room.id} onBooked={handleBookedSlot}/>
+                    <AvailabilityCalendar availObj={room.availability} roomId={room.id} bookings={bookings} onBooked={handleBookedSlot}/>
                 </Modal>
             )}
         </div>

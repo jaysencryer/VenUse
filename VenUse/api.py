@@ -174,7 +174,7 @@ def make_booking(request):
 
     return JsonResponse({"message": "Slot booked succesffully", "Booking": new_booking.serialize()}, status=200)
 
-def get_bookings(request, room_id, date):
+def get_bookings(request, room_id):
     if request.method != 'GET':
         return JsonResponse({"error": "get_bookings is GET only"}, status=400)
 
@@ -183,19 +183,22 @@ def get_bookings(request, room_id, date):
     except Room.DoesNotExist:
         return JsonResponse({"error": f"room id:{room_id} does not exist"}, status=400)
 
-    date_text = date.split('-') # yyyy-mm-dd
-    date_of_booking = datetime.datetime(
-        int(date_text[0]), int(date_text[1]), int(date_text[2]))
+    # if date:
+    #     date_text = date.split('-') # yyyy-mm-dd
+    #     date_of_booking = datetime.datetime(
+    #         int(date_text[0]), int(date_text[1]), int(date_text[2]))
 
-    
-    bookings = room.room_bookings.filter(date=date_of_booking)
-    
+    #     bookings = room.room_bookings.filter(date=date_of_booking)
+    # else:
+        
+    bookings = room.room_bookings.all()
+
     print(bookings)
 
     if bookings:
         bookings_response = [book.serialize() for book in bookings]
     else:
-        bookings_response = {}
+        bookings_response = [{}]
         
     return JsonResponse(bookings_response, safe=False, status=200)
     

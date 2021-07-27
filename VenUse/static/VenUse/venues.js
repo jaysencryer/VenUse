@@ -88,7 +88,7 @@ const addRoom = async (roomForm, venId, roomId = null) => {
         })
     });
     // clear the form once we're happy update has happened.
-    console.log(data);
+    // console.log(data);
     if (!("error" in data)){
         roomForm.querySelector('#id_name').value = '';
         roomForm.querySelector('#id_description').value = '';
@@ -115,7 +115,7 @@ const addVenue = async venueForm => {
             description: venueDescription,
         })
     });
-    console.log(data);
+    // console.log(data);
 
     // clear the form
     venueForm.querySelector('#id_name').value = '';
