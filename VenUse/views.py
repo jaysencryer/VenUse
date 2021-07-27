@@ -66,7 +66,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            print(next_view)
+            # print(next_view)
             if next_view:
                 return HttpResponseRedirect(next_view)
             else:
@@ -143,9 +143,7 @@ def show_venue(request, venurl):
     Shows the venue home page for <str:venurl>, as navigated to by venue/<venurl>
     """
     venue = Venue.objects.get(url=venurl)
-    for comp in react_components:
-        print(comp)
-
+    
     return render(request, "VenUse/default_venue.html", {
         "venue": venue,
         "react_components": react_components,
