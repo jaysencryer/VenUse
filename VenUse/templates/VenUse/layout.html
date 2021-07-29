@@ -3,28 +3,38 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{% static 'VenUse/styles.css' %}" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700&display=swap" rel="stylesheet">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="{% static 'VenUse/styles.css' %}" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700&display=swap"
+            rel="stylesheet"
+        />
         <script type="module" src="{% static 'VenUse/venues.js' %}"></script>
-        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'VenUse/apple-touch-icon.png' %}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'VenUse/favicon-32x32.png' %}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'VenUse/favicon-16x16.png' %}">
-        <link rel="manifest" href="{% static 'VenUse/site.webmanifest' %}">
-        {% block scripts %}
-        {% endblock %}
-        <title>
-            {% block title %}
-                VenUse
-            {% endblock %}
-        </title>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="{% static 'VenUse/apple-touch-icon.png' %}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{% static 'VenUse/favicon-32x32.png' %}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="{% static 'VenUse/favicon-16x16.png' %}"
+        />
+        <link rel="manifest" href="{% static 'VenUse/site.webmanifest' %}" />
+        {% block scripts %} {% endblock %}
+        <title>{% block title %} VenUse {% endblock %}</title>
     </head>
     <body>
-        
         <nav class="nav_bar">
-            
             <ul class="nav">
                 <div class="left_nav">
                     <li class="brand">
@@ -32,35 +42,27 @@
                     </li>
                 </div>
                 <div class="right_nav">
-                    {% if not user.is_authenticated %}                      
-                            <li class="ven-nav-item">
-                                <a href="{% url 'login' %}">Login</a>
-                            </li>
-                            <li class="ven-nav-item">
-                                <a href="{% url 'register' %}">Register User</a>
-                            </li>
-                    {% endif %}    
-                
-                    {% if user.is_authenticated %}
-                        
-                            
-                            <li class="ven-nav-item" id="user_name">{{ user.username }}</li>
-                            
-                
-                    {% endif %}
-                </div>
 
+                    {% if not user.is_authenticated %}
+                        <li class="ven-nav-item">
+                            <a href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="ven-nav-item">
+                            <a href="{% url 'register' %}">Register User</a>
+                        </li>
+                    {% endif %} 
+
+                    {% if user.is_authenticated %}
+                        <li class="ven-nav-item" id="user_name">
+                            {{ user.username }}
+                        </li>
+                    {% endif %}
+
+                </div>
             </ul>
-          
         </nav>
-        <div id='profile_menu'>
-            {% include 'VenUse/profile_menu.html' %}
-        </div>
-        <div class="ven-content">
-            {% block body %}
-            {% endblock %}
-        </div>
-        {% block react-script %}
-        {%endblock%}
+        <div id="profile_menu">{% include 'VenUse/profile_menu.html' %}</div>
+        <div class="ven-content">{% block body %} {% endblock %}</div>
+        {% block react-script %} {%endblock%}
     </body>
 </html>

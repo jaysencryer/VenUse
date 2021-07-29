@@ -50,9 +50,12 @@
     <div class="manage">
         <div>
         {% for venue in venues %}
-            <h2><a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a></h2> 
+        <section class="venue_pod">
+
+            <h3><a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a></h3> 
             {{venue.description}}
             <button id="{{venue.id}}" class="edit_venue" value="edit">edit</button>
+        </section>
         {% endfor %}
         </div>
         <div>

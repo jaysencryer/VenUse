@@ -1,16 +1,19 @@
 :root {
     --venuse-bkg-col: rgb(2, 9, 29);
+    --venuse-shadow: rgba(2,9,29, .5);
     --venuse-color: cadetblue;
     --venuse-ltcolor: rgb(190, 190, 255);
     /* --venuse-color : lightsalmon; */
     --venuse-div-paper: white;
     --venuse-font: "Yanone Kaffeesatz", sans-serif;
+    --venuse-alert: rgb(127, 76, 207);
+
 }
 body {
-    background-color: var(--venuse-bkg-col);
+    background-color: var(--venuse-div-paper);
     font-family: var(--venuse-font);
     font-size: 20px;
-    padding-top: 55px;
+    padding-top: 40px;
 }
 .brand {
     display: inline-block;
@@ -20,15 +23,40 @@ body {
     padding: 0px;
 }
 
+h1 {
+    text-align: center;
+    font-size: 30px;    
+}
+
+h3 {
+    text-align: center;
+    font-size: 20px;
+}
+
 .index {
     box-sizing: border-box;
-    color: white;
+    color: var(--venuse-bkg-col);
     display: block;
     width: 100%;
 }
+
+.info {
+    text-align: center;
+    margin: 10px;
+}
+
+.invisible {
+    position: absolute;
+    color: var(--venuse-div-paper);
+    font-size: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
 .login-register {
-    background-color: var(--venuse-color);
-    border-radius: 20px;
+    background-color: var(--venuse-div-paper);
+    /* border: 2px solid var(--venuse-div-paper); */
+    border-radius: 10px;
     box-sizing: border-box;
     display: block;
     margin: auto;
@@ -39,6 +67,8 @@ body {
 .login-register h2 {
     text-align: center;
 }
+
+
 .nav_bar {
     background-color: var(--venuse-color);
     box-sizing: border-box;
@@ -54,9 +84,10 @@ body {
     color: black;
     text-decoration: none;
 }
-.nav_bar :is(a:hover, #user_name:hover) {
+.nav_bar a:hover, #user_name:hover {
     cursor: pointer;
-    text-shadow: -1px -1px 2px var(--venuse-ltcolor), 1px 1px 2px var(--venuse-ltcolor);
+    color: var(--venuse-ltcolor);
+    text-shadow: -1px -1px 2px black, 1px 1px 2px black;
 }
 .nav_bar ul {
     margin-top: 10px;
@@ -70,74 +101,24 @@ body {
     display: block;
     float: left;
 }
-.ven-content {
-    display: block;
-    margin: auto;
-    width: 100%;
-}
-.ven-nav-item {
-    display: inline-block;
-    padding: 5px;
-}
-.ven-form {
-    box-sizing: border-box;
-    display: block;
-    margin: auto;
-    padding: 5px;
-}
-.ven-input {
-    border-radius: 10px;
-    box-sizing: border-box;
-    margin: auto;
-    padding: 6px;
-    width: 100%;
-}
-[class^="ven-btn"] {
-    font-family: var(--venuse-font);
-    font-size:large;
-    border-radius: 10px;
-    border: none;
-    /* border: 1px solid var(--venuse-color); */
-    background-color: var(--venuse-div-paper);
-     box-shadow: 0 0 1px  var(--venuse-color);
-    padding: 10px;
-    cursor: pointer;
-}
-[class^="ven-btn"]:hover {
 
-    box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
-}
-
-.ven-btn-sm {
-    font-size: medium;
-    padding: 8px;
-}
-.info {
-    text-align: center;
-}
-[class$="_venues"] {
-    background-color: var(--venuse-div-paper);
-    border-radius: 8px;
-    box-sizing: border-box;
-    color: black;
-    display: block;
-    margin: 5px auto;
-    padding: 10px;
-    width: 100%;
-}
 #profile_menu {
     background-color: var(--venuse-color);
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
+    /* border-top-left-radius: 0px;
+    border-top-right-radius: 0px; */
     box-sizing: border-box;
     display: block;
     float: right;
     height: 0px;
     overflow: hidden;
     padding: 0;
-    position: relative;
-    top: -28px;
+    position: fixed;
+    top: 41px;
+    right: 0px;
     transition: height 0.25s;
     width: 100px;
+    box-shadow: -2px 2px 3px var(--venuse-shadow);
 }
 #profile_menu.show_menu {
     height: 100px;
@@ -157,7 +138,8 @@ body {
     text-decoration: none;
 }
 #profile_menu a:hover {
-    text-shadow: -1px -1px 2px var(--venuse-ltcolor), 1px 1px 2px var(--venuse-ltcolor);
+    color: var(--venuse-ltcolor);
+    text-shadow: -1px -1px 2px black, 1px 1px 2px black;
 }
 .manage {
     background-color: var(--venuse-div-paper);
@@ -173,6 +155,96 @@ body {
 .show {
     display: block;
 }
+
+[class$="_venues"] {
+    background-color: var(--venuse-div-paper);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: black;
+    display: block;
+    margin: 5px auto;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.user_venues a {
+    text-decoration: none;
+    color: black;
+}
+.user_venues a:hover {
+    color: black;
+}
+
+.ven-alert {
+    font-size:larger;
+    color: var(--venuse-alert);
+    margin: 10px;
+    text-align: center;
+}
+
+[class^="ven-btn"] {
+    font-family: var(--venuse-font);
+    font-size:large;
+    border-radius: 10px;
+    border: none;
+    /* border: 1px solid var(--venuse-color); */
+    background-color: var(--venuse-div-paper);
+    box-shadow: 0 0 1px  var(--venuse-color);
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+.ven-btn-sm {
+    font-size: medium;
+    padding: 8px;
+}
+
+@media (max-width:425px) {
+    .ven-btn {
+        font-size: larger;
+        width: 100%;
+    }
+}
+
+[class^="ven-btn"]:hover {
+
+    box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
+}
+
+.ven-content {
+    display: block;
+    margin: auto;
+    width: 100%;
+}
+.ven-nav-item {
+    display: inline-block;
+    padding: 5px;
+}
+.ven-form {
+    box-sizing: border-box;
+    display: block;
+    margin: auto;
+    padding: 5px;
+}
+.ven-input {
+    border-radius: 10px;
+    border: 1px solid var(--venuse-color);
+    box-sizing: border-box;
+    margin: auto;
+    font-size: 20px;
+    padding: 10px;
+    width: 100%;
+    font-family: var(--venuse-font);
+}
+
+
+.ven-input:focus {
+    outline: none;
+}
+
+
 #venue_detail {
     overflow: auto;
     width: 95%;
@@ -198,6 +270,40 @@ body {
     box-shadow: 0 1px 2px rgb(70, 69, 69);
     cursor: pointer;
 }
+
+[class^="venue_pod"] {
+    display: inline-flex;
+    font-size: 25px;
+    width: 140px;
+    min-height: 140px;
+    border: 1px solid var(--venuse-shadow);
+    border-radius: 8px;
+    padding: 8px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+.venue_pod_btn {
+    /* color: var(--venuse-div-paper); */
+    background-color: var(--venuse-color);
+    border: none;
+}
+
+.venue_pod_btn :is(a, a:visited)  {
+    color: var(--venuse-div-paper);
+    text-shadow: -1px -1px 2px var(--venuse-shadow), 1px 1px 2px var(--venuse-shadow);
+}
+
+@media (min-width:800px) {
+    [class^="venue_pod"] {
+        width: 200px;
+        min-height: 200px;
+    }
+}
 .venue_room_detail {
     display: inline-block;
     width: 60%;
@@ -216,13 +322,6 @@ body {
 #venue-container {
     background-color: var(--venuse-div-paper);
     display: block;
-}
-.user_venues a {
-    text-decoration: none;
-    color: black;
-}
-.user_venues a:hover {
-    color: var(--venuse-color);
 }
 
 /* .user_venues a:visited {

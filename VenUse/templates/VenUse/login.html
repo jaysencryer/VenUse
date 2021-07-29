@@ -5,24 +5,26 @@
     <h2>Login</h2>
 
     {% if message %}
-        <div>{{ message }}</div>
+        <section class='ven-alert' role='alert'>{{ message }}</section>
     {% endif %}
 
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div class="ven-form">
-            <input autofocus autocomplete="off" class="ven-input" type="text" name="username" placeholder="Username">
+            <label for="username" class="invisible">Username</label>
+            <input autofocus autocomplete="off" class="ven-input" type="text" name="username" placeholder="Username" id="username">
         </div>
         <div class="ven-form">
-            <input class="ven-input" type="password" name="password" placeholder="Password">
+            <label for="password" class="invisible">Password</label>
+            <input class="ven-input" type="password" name="password" placeholder="Password" id="password">
         </div>
         <div class="ven-form">
             <input class="ven-btn" type="submit" value="Login">
         </div>
         <input type="hidden" name="next" value="{{next}}">
     </form>
-    <div class="info">
+    <footer class="info">
         Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-    </div>
+    </footer>
 </div>
 {% endblock %}

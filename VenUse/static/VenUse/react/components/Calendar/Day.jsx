@@ -1,4 +1,4 @@
-const Day = ({ date, children, active }) => {
+const Day = ({ day, date, children, active }) => {
     return (
         <div
             className={`${date === 0 ? "cal_day_no" : "cal_day"} ${active ? "cal_active_day" : ""}`}
@@ -6,6 +6,7 @@ const Day = ({ date, children, active }) => {
             <span className={ `${
                 active ? "cal_active_date" : ""
             }`}>
+                <span className="cal_mobile_day">{day}</span>
             {date ? date : "" }
             </span>
             {children}

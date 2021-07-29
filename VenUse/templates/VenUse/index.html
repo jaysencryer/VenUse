@@ -1,22 +1,29 @@
 {% extends "VenUse/layout.html" %} {% block body %}
 <div class="index">
-    Welcome to VenUse {{ user.first_name }} 
+    <header>
+    <h1>Welcome {% if user.is_authenticated %} back to VenUse, {{ user.first_name }}{% else %} to VenUse{% endif %}</h1> 
+    </header>
     {% if not user.is_authenticated %}
-        <div>
-            <a href="/login">Login here</a> to manage your VenUse or Bookings
-        </div>
+            <h3><a href="/login">Login here</a> to manage your VenUse or Bookings</h3>
     {% else %}
         <div class="user_venues">
-            This will show all user venues. 
-            {% if not user_venues %} 
-                You currently have no venues - <a href="{% url 'manage_venue' 'add_venue' %}">click here</a> to add one. 
-            {% else %} 
+            
+            {% if not user_venues %}
+                <section role="alert" class="ven-alert">
+                    You currently have no venues - <a href="{% url 'manage_venue' 'add_venue' %}">click here</a> to add one. 
+                </section> 
+            {% else %}
+
+                <section  class="venue_pod_btn">
+                    <a href="{% url 'manage_venue' %}">Manage Venues</a>
+                </section>
+
                 {% for venue in user_venues %}
-                <div class="display_venue">
-                    <a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a>
-                </div>
+                    <a href="{% url 'show_venue' venue.url %}"class="venue_pod">
+                        {{venue.name}}
+                    </a>
                 {% endfor %} 
-                <a href="{% url 'manage_venue' %}">Manage Venues</a>
+            
             {% endif %}
         </div>
     {% endif %}

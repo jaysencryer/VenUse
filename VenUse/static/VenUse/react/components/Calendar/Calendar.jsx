@@ -129,7 +129,7 @@ function Calendar({ activeDate, children }) {
                 {monthObj.map((week, id) => (
                     <div key={`week-${id}`}>
                         {dayOfWeek.map(day => (
-                            <Day key={`${day}${id}`} date={week[day]} active={isItToday(makeDate(
+                            <Day key={`${day}${id}`} day={`${day.slice(0,3)}`} date={week[day]} active={isItToday(makeDate(
                                 yearViewing,
                                 fullMonth.indexOf(monthViewing),
                                 week[day]

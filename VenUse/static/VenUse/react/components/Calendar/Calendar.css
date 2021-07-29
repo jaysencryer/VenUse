@@ -1,5 +1,10 @@
+.cal_container {
+    display: block;
+    width:100%;
+}
+
 .cal_calendar {
-    margin: auto;
+    margin: 0 auto;
     width:fit-content;
 }
 
@@ -10,7 +15,8 @@
 
 
 [class^='cal_day'] {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     box-sizing: border-box;
     height: 80px;
     width: 70px;
@@ -28,8 +34,35 @@
     padding-top: 12px;
 }
 
+
 .cal_day_no {
     background-color : #333;
+}
+
+.cal_mobile_day {
+    display: none;
+    width:100%;
+    background-color: var(--venuse-color);
+}
+
+@media (max-width:600px) {
+
+    .cal_calendar {
+        width: 100%;
+    }
+    .cal_mobile_day {
+        display: block;
+    }
+    .cal_day {
+        width:100%;
+    }
+    .cal_day_head {
+        display: none;
+    }
+
+    .cal_day_no {
+        display: none;
+    }
 }
 
 .cal_active_day {
@@ -47,8 +80,8 @@
     padding: 1px 4px;
 }
 
-@media (max-width:580px) {
+/* @media (max-width:580px) {
     [class^='cal_day'] {
         width: 14%;
     }
-}
+} */
