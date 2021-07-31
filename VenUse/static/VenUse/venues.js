@@ -6,19 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const userHub = document.querySelector("#user_name");
     userHub && (userHub.onclick = () => toggleProfileMenu());
 
-    // on manage venue page look allow new venue form to be opened dynamically
+    // on manage venue page allow new venue form to be opened dynamically
     const addVenueButton = document.querySelector("#add_venue");
     addVenueButton && (addVenueButton.onclick = () => showAddVenue());
 
-    // Assign an onclick handler to each venues edit button
-    const editVenueButtons = document.querySelectorAll('.edit_venue');
-    editVenueButtons && (editVenueButtons.forEach(editVen => editVen.onclick = () => showVenueDetail(editVen.id)));
-    
+    // Assign an onclick handler to each venue pod in manage view
+    const manageContainer = document.querySelector("#manage_container");
+    if (manageContainer) {
+        const editVenueButtons = manageContainer.querySelectorAll('.venue_pod');
+        editVenueButtons && (editVenueButtons.forEach(editVen => editVen.onclick = () => showVenueDetail(editVen.id)));
+    }
 });
 
-const toggleButtons = (buttonArray) => {
-    buttonArray.forEach(btn => btn.disabled = !btn.disabled);
-}
+// // toggleButtons will set enabled buttons in buttonArray to disabled, and disabled buttons to enabled
+// const toggleButtons = (buttonArray) => {
+//     buttonArray.forEach(btn => btn.disabled = !btn.disabled);
+// }
 
 const toggleProfileMenu = () => {
     const profileMenu = document.querySelector("#profile_menu");
@@ -26,14 +29,30 @@ const toggleProfileMenu = () => {
     profileMenu.querySelector('ul').style.display = profileMenu.querySelector('ul').style.display === 'block' ? 'none' : 'block';
 };
 
+const hideElement = element => element.style.display = "none";
+const showElement = element => element.style.display = "block";
+
 const showAddVenue = () => {
     const addVenueDiv = document.querySelector('#add_venue_form');
-    addVenueDiv.style.display = "block";
+    const manageContainer = document.querySelector('#manage_container');
     const addVenueForm = addVenueDiv.querySelector('#venue_form');
+    const closeVenueFormButton = addVenueForm.querySelector('#close-ven-edit');
+
+    showElement(addVenueDiv);
+    hideElement(manageContainer);
+    // addVenueDiv.style.display = "block";
+    
     addVenueForm.querySelector("#id_name").focus();
     addVenueForm.onsubmit = () => {
         addVenue(addVenueForm);
-        addVenueDiv.style.display = "none";
+        hideElement(addVenueDiv);
+        // addVenueDiv.style.display = "none";
+        return false;
+    }
+
+    closeVenueFormButton.onclick = () => {
+        hideElement(addVenueDiv);
+        showElement(manageContainer);
         return false;
     }
 }
@@ -129,13 +148,18 @@ const addVenue = async venueForm => {
 const showVenueDetail = async (id) => {
     //console.log(`showing details for Venue with id ${id}`);
     const venueDetail = document.querySelector('#venue_detail');
+    const manageView = document.querySelector('#manage_container');
     venueDetail.innerHTML = '';
     venueDetail.style.display = "block";
+    manageView.style.display = "none";
+    /*
+    **  Edit buttons removed - whole venue pod now a button
     // disable edit buttons
     const editVenueButtons = document.querySelectorAll('.edit_venue');
     if (!editVenueButtons[0].disabled) {
         toggleButtons(editVenueButtons);
     }
+    */
 
     const venElement = await venueDisplay(id);
     venueDetail.append(venElement);
@@ -143,7 +167,9 @@ const showVenueDetail = async (id) => {
     closeBtn.innerText = "Close";
     closeBtn.onclick = () => {
         venueDetail.style.display = "none";
-        toggleButtons(editVenueButtons);
+        manageView.style.display = "block";
+        // edit buttons gone now
+        // toggleButtons(editVenueButtons);
     }
     venueDetail.append(closeBtn);
 }

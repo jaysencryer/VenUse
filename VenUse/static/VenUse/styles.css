@@ -149,6 +149,12 @@ h3 {
     padding: 5px;
     width: 95%;
 }
+.manage h2 {
+    text-align: center;
+}
+#manage_container {
+    text-align: center;
+}
 .hide {
     display: none;
 }
@@ -187,6 +193,7 @@ h3 {
     font-family: var(--venuse-font);
     font-size:large;
     border-radius: 10px;
+    margin:5px;
     border: none;
     /* border: 1px solid var(--venuse-color); */
     background-color: var(--venuse-div-paper);
@@ -278,9 +285,10 @@ h3 {
     min-height: 140px;
     border: 1px solid var(--venuse-shadow);
     border-radius: 8px;
-    padding: 8px;
+    padding: 10px;
     flex-direction: column;
     align-items: center;
+    vertical-align: top;
     justify-content: center;
     margin: 5px;
     cursor: pointer;
@@ -315,9 +323,11 @@ h3 {
     /*  */
 }
 .column {
-    display: flex;
+    display: inline-flex;
     vertical-align: top;
-    width: 40%;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 100%;
 }
 #venue-container {
     background-color: var(--venuse-div-paper);

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, Textarea, NumberInput
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
@@ -21,7 +21,9 @@ class VenueForm(ModelForm):
         model = Venue
         fields = ['name', 'url', 'description']
         widgets = {
-            'name': TextInput(attrs={'autocomplete': 'off', 'autofocus': 'on'}),
+            'name': TextInput(attrs={'autocomplete': 'off', 'autofocus': 'on', 'class' : 'ven-input'}),
+            'url': TextInput(attrs={'autocomplete': 'off', 'class' : 'ven-input'}),
+            'description' : NumberInput(attrs={'class' : 'ven-input'}),
         }
 
 class RoomForm(ModelForm):
@@ -29,6 +31,12 @@ class RoomForm(ModelForm):
     class Meta:
         model = Room
         fields = ['name', 'description', 'capacity']
+        widgets = {
+            'name' : TextInput(attrs={'autocomplete':'off', 'autofocus': 'on', 'class' : 'ven-input'}),
+            'capacity' : TextInput(attrs={'autocomplete':'off', 'class' : 'ven-input'}),
+
+            'description' : Textarea(attrs={'class' : 'ven-input'}),
+        }
 
 #########################################################
 ## Standard Views                                      ##
