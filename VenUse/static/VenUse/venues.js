@@ -60,7 +60,11 @@ const showAddVenue = () => {
 const showAddRoom = (venId, roomObject = null) => {
     // console.log(`Add room clicked for venue ${venId}`);
     const addRoomDiv = document.querySelector('#add_room_form');
-    addRoomDiv.style.display = "block";
+    const venueDetail = document.querySelector('#venue_detail');
+    showElement(addRoomDiv);
+    hideElement(venueDetail);
+
+    // addRoomDiv.style.display = "block";
     const availForm = addRoomDiv.querySelector('#avail_form');
     availForm.innerHTML=''; // Clear any lingering availabilities
     availForm.append(makeAvailForm(roomObject ? roomObject.availability : undefined));
@@ -68,9 +72,17 @@ const showAddRoom = (venId, roomObject = null) => {
 
     if (roomObject) {
         // We are editing an existing room
+        document.querySelector('#room_form_header').textContent = "Edit Room";
+        addRoomForm.querySelector('#add_room_submit').value = "Update";
         addRoomForm.querySelector('#id_name').value = roomObject.name;
         addRoomForm.querySelector('#id_description').value = roomObject.description;
         addRoomForm.querySelector('#id_capacity').value = roomObject.capacity;
+    } else {
+        document.querySelector('#room_form_header').textContent = "New Room";
+        addRoomForm.querySelector('#add_room_submit').value = "Add Room";
+        addRoomForm.querySelector('#id_name').value = '';
+        addRoomForm.querySelector('#id_description').value = '';
+        addRoomForm.querySelector('#id_capacity').value = '';
     }
     
     addRoomForm.querySelector("#id_name").focus();
@@ -78,7 +90,15 @@ const showAddRoom = (venId, roomObject = null) => {
         // Form completed - add the room to the database
         // or if there's a room object update it
         addRoom(addRoomForm, venId, roomObject ? roomObject.id : undefined);
-        
+        showElement(venueDetail);
+        hideElement(addRoomDiv);
+        return false;
+    }
+    const closeButton = addRoomForm.querySelector('#add_room_close');
+    closeButton.onclick = () => {
+        showElement(venueDetail);
+        hideElement(addRoomDiv);
+        roomObject = null;
         return false;
     }
 }
@@ -93,7 +113,7 @@ const addRoom = async (roomForm, venId, roomId = null) => {
     let roomAvailability = await getAvailability(roomForm.querySelector('#avail_form'));
     // console.log(roomAvailability);
     // console.log(`adding room named : ${roomName}, ${roomDescription} capacity: ${roomCapacity} to venue id ${venId}`);
-
+    
     const apiMethod = roomId ? 'PUT' : 'POST';  // If we have a room Id already we are updating the info
     const data = await fetchApi('/add_room',{
         method: apiMethod,
@@ -135,13 +155,13 @@ const addVenue = async venueForm => {
         })
     });
     // console.log(data);
-
+    
     // clear the form
     venueForm.querySelector('#id_name').value = '';
     venueForm.querySelector('#id_url').value = '';
     venueForm.querySelector('#id_description').value = '';
     // update the main view
-
+    
     return false;
 }
 
@@ -150,8 +170,10 @@ const showVenueDetail = async (id) => {
     const venueDetail = document.querySelector('#venue_detail');
     const manageView = document.querySelector('#manage_container');
     venueDetail.innerHTML = '';
-    venueDetail.style.display = "block";
-    manageView.style.display = "none";
+    showElement(venueDetail);
+    // venueDetail.style.display = "block";
+    hideElement(manageView);
+    // manageView.style.display = "none";
     /*
     **  Edit buttons removed - whole venue pod now a button
     // disable edit buttons
@@ -160,18 +182,19 @@ const showVenueDetail = async (id) => {
         toggleButtons(editVenueButtons);
     }
     */
-
-    const venElement = await venueDisplay(id);
-    venueDetail.append(venElement);
-    const closeBtn = document.createElement('button');
-    closeBtn.innerText = "Close";
-    closeBtn.onclick = () => {
+   
+   const venElement = await venueDisplay(id);
+   venueDetail.append(venElement);
+   const closeButton = quickDOM('button','Close','ven-btn');
+   closeButton.onclick = () => {
+       showElement(manageView);
+       hideElement(venueDetail);
         venueDetail.style.display = "none";
-        manageView.style.display = "block";
-        // edit buttons gone now
-        // toggleButtons(editVenueButtons);
+    //    manageView.style.display = "block";
+       // edit buttons gone now
+       // toggleButtons(editVenueButtons);
     }
-    venueDetail.append(closeBtn);
+    venueDetail.append(closeButton);
 }
 
 
@@ -193,24 +216,25 @@ const venueDisplay = async id => {
         venue.append(quickDOM('p', `Address: ${venueData.address}`,'venue_detail_add'));
     } else {
         venue.append(quickDOM('p','You have not added an address for this venue yet!','venue_detail_add'));
-        venue.append(quickDOM('button','Add Address','venue_detail_add_btn','add_address'));
+        venue.append(quickDOM('button','Add Address','ven-btn','add_address'));
     }
 
     const roomDiv = quickDOM('div','','venue_room_detail');
     if (rooms.length > 0){
         // We have rooms configured
         rooms.map(room => { 
-            const roomDetail = quickDOM('div', room.name);
-            const editButton = quickDOM('button','Edit','btn');
-            editButton.id = `room_${room.id}`;
-            editButton.onclick = () => showAddRoom(id,room);
-            roomDetail.append(editButton);
+            const roomDetail = quickDOM('button', room.name, 'room-list');
+            // const editButton = quickDOM('button','Edit','ven-btn');
+            // const roomButton = quickDOM('button',room.name,'ven-btn-sm');
+            roomDetail.id = `room_${room.id}`;
+            roomDetail.onclick = () => showAddRoom(id,room);
+            // roomDetail.append(roomButton);
             roomDiv.append(roomDetail);
         });
     } else {
         roomDiv.append(quickDOM('h3', 'You do not have any rooms configured for this Venue'));
     }
-    const addRoomButton = quickDOM('button', 'Add Room', 'venue_detail_add_btn','add_room');
+    const addRoomButton = quickDOM('button', 'Add Room', 'ven-btn','add_room');
     addRoomButton.id = 'add_room';
     roomDiv.append(addRoomButton);
     roomDiv.querySelector('#add_room').onclick = () => showAddRoom(id);

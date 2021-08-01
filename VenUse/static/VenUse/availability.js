@@ -28,7 +28,8 @@ export const AVAIL_DEFAULT = {
 
 export const makeAvailForm = (availability = AVAIL_DEFAULT) => {
     const formElement = quickDOM("div","","ven-form");
-    const availTable = quickDOM("table");
+    
+    const availTable = quickDOM("table", "", "avail-table");
     
     const headerRow = quickDOM("tr"); 
     headerRow.append(quickDOM("td"));
@@ -41,7 +42,7 @@ export const makeAvailForm = (availability = AVAIL_DEFAULT) => {
     dayOfWeek.forEach(day => {
         // create the row for each day, and checkbox for each slot
         const newRow = quickDOM("tr");
-        newRow.append(quickDOM("td",day));
+        newRow.append(quickDOM("td",day,"avail-table-left"));
         for (let slot = 4 ; slot > 0 ; slot = slot >> 1 ) {
             const checkTD = quickDOM("td");
             const box = document.createElement("input");

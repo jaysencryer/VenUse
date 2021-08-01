@@ -1,19 +1,56 @@
 :root {
     --venuse-bkg-col: rgb(2, 9, 29);
-    --venuse-shadow: rgba(2,9,29, .5);
+    --venuse-shadow: rgba(2, 9, 29, 0.5);
     --venuse-color: cadetblue;
     --venuse-ltcolor: rgb(190, 190, 255);
     /* --venuse-color : lightsalmon; */
     --venuse-div-paper: white;
     --venuse-font: "Yanone Kaffeesatz", sans-serif;
     --venuse-alert: rgb(127, 76, 207);
-
 }
+
 body {
     background-color: var(--venuse-div-paper);
     font-family: var(--venuse-font);
     font-size: 20px;
-    padding-top: 40px;
+    padding-top: 34px;
+}
+
+/* classes and indexes alphabetized for easy find 
+ except right-nav and left-nav, grouped with nav */
+
+#add_venue_form {
+    max-width: 550px;
+}
+
+#avail_form {
+    text-align: center;
+}
+
+
+#avail_form input[type='checkbox'] {
+    width: 17px;
+    height: 17px;
+    border-radius: 4px;
+    margin: 2px;
+    text-align: center;
+}
+
+.avail-table {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0 auto;
+    text-align: center;
+    table-layout: fixed;
+    width: 100%;
+    border-radius: 10px;
+    padding:8px;
+    box-shadow: 0 0 1px var(--venuse-color);
+
+}
+
+.avail-table-left {
+    text-align: left;
 }
 .brand {
     display: inline-block;
@@ -25,12 +62,13 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 30px;    
+    font-size: 30px;
 }
 
 h3 {
     text-align: center;
     font-size: 20px;
+    margin: 6px auto;
 }
 
 .index {
@@ -68,7 +106,6 @@ h3 {
     text-align: center;
 }
 
-
 .nav_bar {
     background-color: var(--venuse-color);
     box-sizing: border-box;
@@ -84,7 +121,8 @@ h3 {
     color: black;
     text-decoration: none;
 }
-.nav_bar a:hover, #user_name:hover {
+.nav_bar a:hover,
+#user_name:hover {
     cursor: pointer;
     color: var(--venuse-ltcolor);
     text-shadow: -1px -1px 2px black, 1px 1px 2px black;
@@ -148,9 +186,11 @@ h3 {
     margin: 10px auto;
     padding: 5px;
     width: 95%;
+    margin-top: 0;
 }
 .manage h2 {
     text-align: center;
+    margin: 6px auto;
 }
 #manage_container {
     text-align: center;
@@ -160,6 +200,20 @@ h3 {
 }
 .show {
     display: block;
+}
+
+.room-list {
+    background-color: var(--venuse-div-paper);
+    font-family: var(--venuse-font);
+    font-size: large;
+    margin: 4px;
+    border: none;
+    /* border: 1px solid var(--venuse-color); */
+    box-shadow: 0 0 1px var(--venuse-color);
+    cursor: pointer;
+    margin: 4px;
+    padding: 10px;
+    border-radius: 3px;
 }
 
 [class$="_venues"] {
@@ -183,7 +237,7 @@ h3 {
 }
 
 .ven-alert {
-    font-size:larger;
+    font-size: larger;
     color: var(--venuse-alert);
     margin: 10px;
     text-align: center;
@@ -191,24 +245,23 @@ h3 {
 
 [class^="ven-btn"] {
     font-family: var(--venuse-font);
-    font-size:large;
+    font-size: large;
     border-radius: 10px;
-    margin:5px;
+    margin: 5px;
     border: none;
     /* border: 1px solid var(--venuse-color); */
     background-color: var(--venuse-div-paper);
-    box-shadow: 0 0 1px  var(--venuse-color);
+    box-shadow: 0 0 1px var(--venuse-color);
     padding: 10px;
     cursor: pointer;
 }
-
 
 .ven-btn-sm {
     font-size: medium;
     padding: 8px;
 }
 
-@media (max-width:425px) {
+@media (max-width: 425px) {
     .ven-btn {
         font-size: larger;
         width: 100%;
@@ -216,7 +269,13 @@ h3 {
 }
 
 [class^="ven-btn"]:hover {
+    box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
+}
 
+[class^="ven-btn"]:focus {
+    border-radius: 10px;
+    outline: none;
+    /* outline: solid 1px var(--venuse-color); */
     box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
 }
 
@@ -234,6 +293,7 @@ h3 {
     display: block;
     margin: auto;
     padding: 5px;
+    width: 100%;
 }
 .ven-input {
     border-radius: 10px;
@@ -244,13 +304,18 @@ h3 {
     padding: 10px;
     width: 100%;
     font-family: var(--venuse-font);
+    max-height: 100px;
 }
-
+@media (min-width: 600px) {
+    .ven-input {
+        max-height: none;
+    }
+}
 
 .ven-input:focus {
     outline: none;
+    box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
 }
-
 
 #venue_detail {
     overflow: auto;
@@ -260,9 +325,18 @@ h3 {
     display: flex;
 }
 .venue_detail_main {
-    display: inline-block;
-    width: 40%;
+    /* display: inline-block;
+    width: 40%; */
+    justify-content: flex-start;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: stretch;
+    display: inline-flex;
+    width: 60%;
+    padding: 10px;
 }
+
 .venue_detail_add {
 }
 .venue_detail_add_btn {
@@ -280,54 +354,90 @@ h3 {
 
 [class^="venue_pod"] {
     display: inline-flex;
+    box-sizing: border-box;
     font-size: 25px;
     width: 140px;
     min-height: 140px;
+    max-height: 140px;
     border: 1px solid var(--venuse-shadow);
     border-radius: 8px;
     padding: 10px;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     vertical-align: top;
-    justify-content: center;
+    justify-content: space-evenly;
     margin: 5px;
     cursor: pointer;
 }
 
+[class^="venue_pod"] h3 {
+    font-size: 25px;
+    text-align: center;
+    margin: 5%;
+}
+
+[class^="venue_pod"] p {
+    margin: 5%;
+    text-align: left;
+    font-size: 18px;
+}
+
+[class^="venue_pod"]:hover {
+    box-shadow: 0px 0px 4px var(--venuse-color); /*, -1px -1px 2px var(--venuse-color);*/
+}
 
 .venue_pod_btn {
     /* color: var(--venuse-div-paper); */
     background-color: var(--venuse-color);
     border: none;
+    justify-content: center;
 }
 
-.venue_pod_btn :is(a, a:visited)  {
+.venue_pod_btn :is(a, a:visited) {
     color: var(--venuse-div-paper);
-    text-shadow: -1px -1px 2px var(--venuse-shadow), 1px 1px 2px var(--venuse-shadow);
+    text-shadow: -1px -1px 2px var(--venuse-shadow),
+        1px 1px 2px var(--venuse-shadow);
 }
 
-@media (min-width:800px) {
+@media (min-width: 800px) {
     [class^="venue_pod"] {
         width: 200px;
         min-height: 200px;
     }
 }
 .venue_room_detail {
-    display: inline-block;
-    width: 60%;
+    align-content: flex-start;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin: 5px;
+    align-items: stretch;
+    display: inline-flex;
+    width: 40%;
 }
 #add_room_form {
-    max-height: 400px;
-    overflow: hidden;
-
     /*  */
 }
+
 .column {
-    display: inline-flex;
+    /* display: inline-flex;
     vertical-align: top;
     flex-direction: column;
     min-width: 200px;
-    max-width: 100%;
+    max-width: 100%; */
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width:600px) {
+    .column {
+        width:49%;
+    }
 }
 #venue-container {
     background-color: var(--venuse-div-paper);

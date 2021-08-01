@@ -23,7 +23,7 @@ class VenueForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={'autocomplete': 'off', 'autofocus': 'on', 'class' : 'ven-input'}),
             'url': TextInput(attrs={'autocomplete': 'off', 'class' : 'ven-input'}),
-            'description' : NumberInput(attrs={'class' : 'ven-input'}),
+            'description' : Textarea(attrs={'class' : 'ven-input'}),
         }
 
 class RoomForm(ModelForm):
@@ -33,7 +33,7 @@ class RoomForm(ModelForm):
         fields = ['name', 'description', 'capacity']
         widgets = {
             'name' : TextInput(attrs={'autocomplete':'off', 'autofocus': 'on', 'class' : 'ven-input'}),
-            'capacity' : TextInput(attrs={'autocomplete':'off', 'class' : 'ven-input'}),
+            'capacity' : NumberInput(attrs={'autocomplete':'off', 'class' : 'ven-input'}),
 
             'description' : Textarea(attrs={'class' : 'ven-input'}),
         }

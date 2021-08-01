@@ -24,13 +24,14 @@
         </form>
     </div>
     <div id="add_room_form" class="manage add_room {{ add_room_form }}">
-        
-        <h2>New Room</h2>
+        <header>
+            <h2 id='room_form_header'>New Room</h2>
+        </header>
         <form id="room_form" >
             <div class="column">
                 {% csrf_token %}
                 <div class="ven-form">
-                    Name:{{room_form.name}}
+                  Name:{{room_form.name}}
                 </div>
                 <div class="ven-form">
                     Description:{{room_form.description}}
@@ -40,16 +41,15 @@
                 </div>
             </div>
             <div class="column">
-                <div class="ven-form">
-                    Availability
+                <h3>Availability</h3>
                     <div id="avail_form">
                         <!-- JavaScript rendered availability form inserted here -->
                         <!--{% include 'VenUse/availability_form.html' %}-->
                     </div>
 
-                </div>
             </div>
             <input type="submit" id="add_room_submit" class="ven-btn" name="add_room" value="Add Room"/>
+            <button type="button" id="add_room_close" class="ven-btn" name="add_room_close">Cancel</button>
         </form>
     </div>
     {% if venues %}
@@ -57,14 +57,13 @@
         <div>
             
             <section id="add_venue" class="venue_pod_btn">
-                Add Venue
+                <h3>Add Venue</h3>
             </section>
             
             {% for venue in venues %}
                 <section id="{{venue.id}}" class="venue_pod">
-                    <h3><a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a></h3> 
-                    {{venue.description}}
-                    <!-- <button id="{{venue.id}}" class="edit_venue" value="edit">edit</button> -->
+                    <h3>{{venue.name}}</h3> 
+                    <p>{{venue.description}}</p>
                 </section>
             {% endfor %}
         </div>
