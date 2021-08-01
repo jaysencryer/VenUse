@@ -25,4 +25,10 @@ export function quickDOM(tag, innerText = "", className = "", value = "") {
     return newElement;
 }
 
+export const hideElement = element => element.style.display = "none";
+export const showElement = element => {
+    element.style.display = "block";
+    window.scrollTo(0,0);
+}
+
 

@@ -54,7 +54,6 @@
     </div>
     {% if venues %}
     <div id="manage_container" class="manage">
-        <div>
             
             <section id="add_venue" class="venue_pod_btn">
                 <h3>Add Venue</h3>
@@ -63,10 +62,9 @@
             {% for venue in venues %}
                 <section id="{{venue.id}}" class="venue_pod">
                     <h3>{{venue.name}}</h3> 
-                    <p>{{venue.description}}</p>
+                    <!-- <p>{{venue.description}}</p> -->
                 </section>
             {% endfor %}
-        </div>
       
     </div>
     {% endif %}

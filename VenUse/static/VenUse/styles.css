@@ -60,9 +60,11 @@ body {
     padding: 0px;
 }
 
+
 h1 {
     text-align: center;
     font-size: 30px;
+    margin: 15px auto;
 }
 
 h3 {
@@ -247,7 +249,7 @@ h3 {
     font-family: var(--venuse-font);
     font-size: large;
     border-radius: 10px;
-    margin: 5px;
+    margin: 5px auto;
     border: none;
     /* border: 1px solid var(--venuse-color); */
     background-color: var(--venuse-div-paper);
@@ -261,6 +263,11 @@ h3 {
     padding: 8px;
 }
 
+.btn-standout {
+    background-color: var(--venuse-color);
+    color: var(--venuse-div-paper);
+    text-shadow: -1px -1px 2px var(--venuse-shadow), 1px 1px 2px var(--venuse-shadow);
+}
 @media (max-width: 425px) {
     .ven-btn {
         font-size: larger;
@@ -391,12 +398,11 @@ h3 {
     background-color: var(--venuse-color);
     border: none;
     justify-content: center;
+    color: var(--venuse-div-paper);
+    text-shadow: -1px -1px 2px var(--venuse-shadow), 1px 1px 2px var(--venuse-shadow);
 }
 
 .venue_pod_btn :is(a, a:visited) {
-    color: var(--venuse-div-paper);
-    text-shadow: -1px -1px 2px var(--venuse-shadow),
-        1px 1px 2px var(--venuse-shadow);
 }
 
 @media (min-width: 800px) {

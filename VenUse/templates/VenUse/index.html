@@ -14,8 +14,8 @@
                 </section> 
             {% else %}
 
-                <section  class="venue_pod_btn">
-                    <a href="{% url 'manage_venue' %}">Manage Venues</a>
+                <section  class="venue_pod_btn" onclick='window.location.href="{% url 'manage_venue' %}";'>
+                    Manage Venues
                 </section>
 
                 <section class="venue_pod">
@@ -23,19 +23,18 @@
                 </section>
 
                 <!-- {% for venue in user_venues %}
-                    <a href="{% url 'show_venue' venue.url %}"class="venue_pod">
-                        {{venue.name}}
-                    </a>
+                <a href="{% url 'show_venue' venue.url %}"class="venue_pod">
+                    {{venue.name}}
+                </a>
                 {% endfor %} 
              -->
             {% endif %}
         </div>
     {% endif %}
     <div class="featured_venues">
-        This will show featured or popular venues 
         {% for venue in feat_venues %}
-            <section class="venue_pod">
-                <a href="{% url 'show_venue' venue.url %}">{{venue.name}}</a>
+            <section class="venue_pod" onclick='window.location.href="{% url 'show_venue' venue.url %}";'>
+                {{venue.name}}
             </section>
         {% endfor %}
     </div>
