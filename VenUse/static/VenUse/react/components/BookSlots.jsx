@@ -65,7 +65,7 @@ const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date
 
     return (
         <div className="BOOKING_modal">
-            <span className="BOOKING_close" onClick={closeBookingModal}>
+            <span className="BOOKING_close" onClick={() => closeBookingModal(0)}>
                 x
             </span>
                 <div className="BOOKING_modal_content">

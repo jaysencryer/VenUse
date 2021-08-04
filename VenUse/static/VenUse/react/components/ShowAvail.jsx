@@ -93,9 +93,8 @@ const ShowAvail = ({ avail, date, bookings, roomId, onBooked }) => {
     // React.useState(() => {
         // convert current calendar date
         const testDate = date.toLocaleDateString().split("/").reverse();
-
         // check all bookings for a match to current calendar date
-        const booked = bookings
+        const booked = typeof(bookings) == 'array'
             ? bookings.filter(booking => {
                   const bookDate = booking.date.split("-");
                   return (
@@ -161,11 +160,12 @@ const ShowAvail = ({ avail, date, bookings, roomId, onBooked }) => {
                     roomId={roomId}
                     bookedValue={bookedValue}
                     date={date}
-                    closeBookingModal={() => {
+                    closeBookingModal={(value) => {
                         // setBookedSlot(newBookedValue);
                         setOpenBookingModal(false);
-                        onBooked();
-                        
+                        if (value > 0) {
+                            onBooked();
+                        }
                     }}
                 />
             )}
