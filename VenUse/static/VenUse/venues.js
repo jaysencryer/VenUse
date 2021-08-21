@@ -1,5 +1,6 @@
 import { quickDOM, fetchApi, hideElement, showElement } from "./utils.js";
 import { makeAvailForm, getAvailability } from "./availability.js";
+import { showAddAddress } from "./address.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // When page loads - check for user_id button, and set up profile menu
@@ -195,9 +196,6 @@ const showVenueDetail = async id => {
         showElement(manageView);
         hideElement(venueDetail);
         venueDetail.style.display = "none";
-        //    manageView.style.display = "block";
-        // edit buttons gone now
-        // toggleButtons(editVenueButtons);
     };
 };
 
@@ -227,9 +225,14 @@ const venueDisplay = async id => {
                 "venue_detail_add"
             )
         );
-        venue.append(
-            quickDOM("button", "Add Address", "ven-btn", "add_address")
+        const addAddressButton = quickDOM(
+            "button",
+            "Add Address",
+            "ven-btn",
+            "add_address"
         );
+        addAddressButton.onclick = () => showAddAddress(id, venue);
+        venue.append(addAddressButton);
     }
 
     const closeButton = quickDOM("button", "Close", "ven-btn");
@@ -252,11 +255,8 @@ const venueDisplay = async id => {
         // We have rooms configured
         rooms.map(room => {
             const roomDetail = quickDOM("button", room.name, "room-list");
-            // const editButton = quickDOM('button','Edit','ven-btn');
-            // const roomButton = quickDOM('button',room.name,'ven-btn-sm');
             roomDetail.id = `room_${room.id}`;
             roomDetail.onclick = () => showAddRoom(id, room);
-            // roomDetail.append(roomButton);
             roomDiv.append(roomDetail);
         });
     } else {

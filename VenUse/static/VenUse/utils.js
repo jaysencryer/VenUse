@@ -18,7 +18,14 @@ export const fetchApi = async (url, body = {}) => {
 };
 
 export function quickDOM(tag, innerText = "", className = "", value = "") {
-    const newElement = document.createElement(tag);
+    let newElement;
+    if (tag.search('input-') !== -1) {
+        const type = tag.split('-')[1];
+        newElement = document.createElement('input');
+        newElement.type = type;
+    } else {
+        newElement = document.createElement(tag);
+    }
     className && newElement.classList.add(className);
     newElement.innerText = innerText || "";
     newElement.value = value || "";
