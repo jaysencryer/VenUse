@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import User, Venue, Room, Booking
+from .models import User, Venue, Room, Booking, Address
 from .availability import Availability
 
 # @login_required
@@ -202,4 +202,25 @@ def get_bookings(request, room_id):
         
     return JsonResponse(bookings_response, safe=False, status=200)
     
-    
+@csrf_exempt
+@login_required
+def post_address(request, ven_id):
+    if request.method != 'POST':
+        return JsonResponse({"error": "post_address is POST only"}, status=400) 
+
+    data = json.loads(request.body)
+
+    # json data
+    street1 = data.get("street1")
+    street2 = data.get("street2")
+    city = data.get("city")
+    country = data.get("country")
+    zip_code = data.get("zip")
+
+    venue = Venue.objects.get(pk=ven_id)
+
+    new_address = Address(venue=venue, street1=street1, street2=street2, city=city, country=country, zip_code=zip_code)
+    new_address.save()
+    return_address = new_address.serialize()
+
+    return JsonResponse({"message":"Address added succesfully", "address": return_address}, status=200)

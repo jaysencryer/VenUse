@@ -29,8 +29,14 @@ export const showAddAddress = (venId, parentElement) => {
 
 const saveAddress = async (venId) => {
     // TODO update address endpoint needs to be written
-    // const data = fetchApi('');
-    const addressForm = document.querySelector('#address-form');
-    console.log(addressForm);
+    // const completeAddressForm = document.querySelector('#address-form');
+    let formBody = {};
+    addressForm.forEach( field => {
+        formBody[field.name] = document.getElementById(field.name).value;
+    })
+    const data = await fetchApi(`/post_address/${venId}`, {
+        method: 'POST',
+        body: JSON.stringify(formBody),
+    });
     return false;  
 } 

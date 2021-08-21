@@ -18,8 +18,6 @@ class Venue(models.Model):
     name = models.CharField(max_length=50, blank=False)
     url = models.CharField(max_length=20, blank=True)
     description = models.TextField(blank=True)
-    address = models.TextField(blank=True)
-    
 
     def serialize(self):
         return {
@@ -72,3 +70,25 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.id} : {self.user.username}, {self.room}, {self.date}, " + ("Morn, " if self.slot & 4 else "")  + ("Afternoon, " if self.slot & 2 else "")  + ("Eve, " if self.slot & 1 else "")
+
+
+class Address(models.Model):
+    venue = models.ForeignKey("Venue", on_delete=models.CASCADE, related_name="venue_address")
+    street1 = models.CharField(max_length=50, blank=False)
+    street2 = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=25, blank=False)
+    country = models.CharField(max_length=25, blank=False)
+    zip_code = models.CharField(max_length=10, blank=False)
+
+    def serialize(self):
+
+        return {
+            "street1": self.street1,
+            "street2": self.street2,
+            "city": self.city,
+            "country": self.country,
+            "zip": self.zip_code,
+        }
+
+    def __str__(self):
+        return f"{self.venue.name} : {self.street1} {self.city} {self.zip_code}"

@@ -9,7 +9,7 @@ from django.forms import ModelForm, TextInput, Textarea, NumberInput
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
-from .models import User, Venue, Room
+from .models import User, Venue, Room, Address
 from .react import react_components
 
 #
@@ -151,6 +151,8 @@ def show_venue(request, venurl):
     Shows the venue home page for <str:venurl>, as navigated to by venue/<venurl>
     """
     venue = Venue.objects.get(url=venurl)
+    venue_address = venue.venue_address.all()
+    print(f"Venue Address = {venue_address}")
     
     return render(request, "VenUse/default_venue.html", {
         "venue": venue,
