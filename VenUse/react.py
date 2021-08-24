@@ -14,5 +14,6 @@ react_components = (
     "AvailabilityCalendar",
     "Room",
     "ShowRooms",
+    "VenueAddress",
     "VenueTitle",
     "Venue")

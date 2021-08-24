@@ -1,10 +1,10 @@
 // const ShowRooms = require('./ShowRooms.jsx');
 import ShowRooms from "./ShowRooms.jsx";
 import VenueTitle from "./VenueTitle.jsx";
+import VenueAddress from "./VenueAddress.jsx";
 
 function Venue({ venue }) {
     const [rooms, setRooms] = React.useState([]);
-
     return (
         <div>
         <div className="VENUE_container">
@@ -13,7 +13,7 @@ function Venue({ venue }) {
             <hr />
             {venue.address && (
                 <div>
-                    <section className="VENUE_address">{venue.address}</section>
+                    <VenueAddress className="VENUE_address" address={venue.address} />
                     <hr />
                 </div>
             )}

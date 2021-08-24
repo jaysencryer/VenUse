@@ -22,6 +22,10 @@ def get_venue(request, venue_id):
         except Venue.DoesNotExist:
             return JsonResponse({"error": f"venue id:{venue_id} does not exist"}, status=400)
 
+        
+        address = venue.venue_address.first()
+        
+
         rooms = Room.objects.all().filter(venue=venue).order_by("capacity")
         bookings = {}
         for room in rooms:
@@ -32,6 +36,10 @@ def get_venue(request, venue_id):
         response = [venue.serialize()]
         response.append([room.serialize() for room in rooms])
         response.append(bookings)
+        if address is None:
+            response.append({})
+        else:
+            response.append(address.serialize())
 
         return JsonResponse(response, safe=False)
 
@@ -214,10 +222,14 @@ def post_address(request, ven_id):
     street1 = data.get("street1")
     street2 = data.get("street2")
     city = data.get("city")
+    state = data.get("state")
     country = data.get("country")
     zip_code = data.get("zip")
 
     venue = Venue.objects.get(pk=ven_id)
+    if venue.venue_address.first():
+        # Venue already has an address, only 1 allowed!
+        return JsonResponse({"error":"Venue already has an address.  Only one address allowed"}, status=400)
 
     new_address = Address(venue=venue, street1=street1, street2=street2, city=city, country=country, zip_code=zip_code)
     new_address.save()

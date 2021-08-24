@@ -79,6 +79,7 @@ class Address(models.Model):
     city = models.CharField(max_length=25, blank=False)
     country = models.CharField(max_length=25, blank=False)
     zip_code = models.CharField(max_length=10, blank=False)
+    state = models.CharField(max_length=20, blank=False)
 
     def serialize(self):
 
@@ -86,9 +87,10 @@ class Address(models.Model):
             "street1": self.street1,
             "street2": self.street2,
             "city": self.city,
+            "state": self.state,
             "country": self.country,
             "zip": self.zip_code,
         }
 
     def __str__(self):
-        return f"{self.venue.name} : {self.street1} {self.city} {self.zip_code}"
+        return f"{self.venue.name} : {self.street1} {self.city} {self.state} {self.zip_code}"

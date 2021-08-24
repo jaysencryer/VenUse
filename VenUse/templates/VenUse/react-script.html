@@ -11,9 +11,17 @@
 {% endfor %}
 <script data-plugins="transform-es2015-modules-umd" type="text/babel">
     import Venue from "{% static 'VenUse/react/components/Venue.jsx' %}";
-
+    const venueAddress = {
+      street1: "{{address.street1}}",
+      street2: "{{address.street2}}",
+      city: "{{address.city}}",
+      state: "{{address.state}}",
+      country: "{{address.country}}",
+      zip: "{{address.zip_code}}"
+    };
     const venue = {
       name: "{{venue.name}}",
+      address: venueAddress,
       id: {{venue.id}},
       description: `{{venue.description}}`
     };

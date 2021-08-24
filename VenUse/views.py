@@ -151,10 +151,10 @@ def show_venue(request, venurl):
     Shows the venue home page for <str:venurl>, as navigated to by venue/<venurl>
     """
     venue = Venue.objects.get(url=venurl)
-    venue_address = venue.venue_address.all()
-    print(f"Venue Address = {venue_address}")
-    
+    venue_address = venue.venue_address.first()
+        
     return render(request, "VenUse/default_venue.html", {
         "venue": venue,
+        "address": venue_address,
         "react_components": react_components,
     })

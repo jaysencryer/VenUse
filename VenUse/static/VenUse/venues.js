@@ -1,6 +1,6 @@
 import { quickDOM, fetchApi, hideElement, showElement } from "./utils.js";
 import { makeAvailForm, getAvailability } from "./availability.js";
-import { showAddAddress } from "./address.js";
+import { showAddAddress, displayAddress } from "./address.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // When page loads - check for user_id button, and set up profile menu
@@ -202,36 +202,41 @@ const showVenueDetail = async id => {
 const venueDisplay = async id => {
     // fetch the venue(id) data from API, including rooms
     const data = await fetchApi(`/get_venue/${id}`);
-
+    console.log(data);
     if (data.error) {
         return quickDOM("h3", data.error);
     }
 
     const venueData = data[0];
     const rooms = data[1];
+    const address = data[3];
     const container = quickDOM("div", "", "venue_detail_container");
     const venue = quickDOM("div", "", "venue_detail_main");
     venue.append(quickDOM("h1", venueData.name));
     venue.append(quickDOM("small", venueData.description));
-    if (venueData.address) {
-        venue.append(
-            quickDOM("p", `Address: ${venueData.address}`, "venue_detail_add")
-        );
+    if ("street1" in address) {
+        venue.append(displayAddress(address));
     } else {
-        venue.append(
-            quickDOM(
-                "p",
-                "You have not added an address for this venue yet!",
-                "venue_detail_add"
-            )
+        const noAddressMessage = quickDOM(
+            "p",
+            "You have not added an address for this venue yet!",
+            "venue_detail_add"
         );
+        noAddressMessage.id = "no-address";
+        venue.append(noAddressMessage);
         const addAddressButton = quickDOM(
             "button",
             "Add Address",
             "ven-btn",
             "add_address"
         );
-        addAddressButton.onclick = () => showAddAddress(id, venue);
+
+        addAddressButton.onclick = () => {
+            addAddressButton.disabled = true;
+            hideElement(noAddressMessage);
+            showAddAddress(id, venue);
+        };
+
         venue.append(addAddressButton);
     }
 
