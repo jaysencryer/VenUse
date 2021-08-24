@@ -1,4 +1,4 @@
-import { quickDOM, fetchApi, hideElement, showElement } from "./utils.js";
+import { quickDOM, fetchApi, hideElement, showElement, clearForm } from "./utils.js";
 import { makeAvailForm, getAvailability } from "./availability.js";
 import { showAddAddress, displayAddress } from "./address.js";
 
@@ -44,14 +44,12 @@ const showAddVenue = () => {
 
     showElement(addVenueDiv);
     hideElement(manageContainer);
-    // addVenueDiv.style.display = "block";
 
     addVenueForm.querySelector("#id_name").focus();
     addVenueForm.onsubmit = () => {
         addVenue(addVenueForm);
         showElement(manageContainer);
         hideElement(addVenueDiv);
-        // addVenueDiv.style.display = "none";
         return false;
     };
 
@@ -63,13 +61,11 @@ const showAddVenue = () => {
 };
 
 const showAddRoom = (venId, roomObject = null) => {
-    // console.log(`Add room clicked for venue ${venId}`);
     const addRoomDiv = document.querySelector("#add_room_form");
     const venueDetail = document.querySelector("#venue_detail");
     showElement(addRoomDiv);
     hideElement(venueDetail);
 
-    // addRoomDiv.style.display = "block";
     const availForm = addRoomDiv.querySelector("#avail_form");
     availForm.innerHTML = ""; // Clear any lingering availabilities
     availForm.append(
@@ -118,8 +114,6 @@ const addRoom = async (roomForm, venId, roomId = null) => {
     let roomAvailability = await getAvailability(
         roomForm.querySelector("#avail_form")
     );
-    // console.log(roomAvailability);
-    // console.log(`adding room named : ${roomName}, ${roomDescription} capacity: ${roomCapacity} to venue id ${venId}`);
 
     const apiMethod = roomId ? "PUT" : "POST"; // If we have a room Id already we are updating the info
     const data = await fetchApi("/add_room", {
@@ -134,13 +128,13 @@ const addRoom = async (roomForm, venId, roomId = null) => {
         }),
     });
     // clear the form once we're happy update has happened.
-    // console.log(data);
     if (!("error" in data)) {
-        roomForm.querySelector("#id_name").value = "";
-        roomForm.querySelector("#id_description").value = "";
-        roomForm.querySelector("#id_capacity").value = "";
-        roomForm.querySelector("#avail_form").innerHTML = "";
-        // Hide the form
+        clearForm(roomForm);
+        // roomForm.querySelector("#id_name").value = "";
+        // roomForm.querySelector("#id_description").value = "";
+        // roomForm.querySelector("#id_capacity").value = "";
+        // roomForm.querySelector("#avail_form").innerHTML = "";
+        // // Hide the form
         document.querySelector("#add_room_form").style.display = "none";
         // update the edit view
         showVenueDetail(venId);
@@ -202,7 +196,7 @@ const showVenueDetail = async id => {
 const venueDisplay = async id => {
     // fetch the venue(id) data from API, including rooms
     const data = await fetchApi(`/get_venue/${id}`);
-    console.log(data);
+    // console.log(data);
     if (data.error) {
         return quickDOM("h3", data.error);
     }
@@ -233,6 +227,7 @@ const venueDisplay = async id => {
 
         addAddressButton.onclick = () => {
             addAddressButton.disabled = true;
+            hideElement(addAddressButton);
             hideElement(noAddressMessage);
             showAddAddress(id, venue);
         };

@@ -10,6 +10,7 @@ const addressForm = [
 ];
 
 export const showAddAddress = (venId, parentElement) => {
+    const closeButton = parentElement.lastChild;
     let addressFormElement = quickDOM("form", "", "ven-form");
     addressFormElement.id = "address-form";
     addressForm.forEach(field => {
@@ -26,23 +27,25 @@ export const showAddAddress = (venId, parentElement) => {
     submitAddress.onclick = () => {
         saveAddress(venId, (response) => {
             if ("error" in response) {
+                // TODO add some error in the view for the user
                 console.error(response.error);
+                parentElement.insertBefore(quickDOM('h3',response.error, 'error-alert'), addressFormElement);
             } else {
                 hideElement(addressFormElement);
                 clearForm(addressFormElement);
+                // Show the address now in the display
+                parentElement.insertBefore(displayAddress(response.address), closeButton);
             }
         });
         return false;
     };
 
     addressFormElement.append(submitAddress);
-    parentElement.append(addressFormElement);
+    parentElement.insertBefore(addressFormElement, closeButton);
     addressFormElement.querySelector("#street1").focus();
 };
 
 const saveAddress = async (venId, onComplete) => {
-    // TODO update address endpoint needs to be written
-    // const completeAddressForm = document.querySelector('#address-form');
     let formBody = {};
     addressForm.forEach(field => {
         formBody[field.name] = document.getElementById(field.name).value;
@@ -52,6 +55,7 @@ const saveAddress = async (venId, onComplete) => {
         body: JSON.stringify(formBody),
     });
 
+    // onComplete is callback to do whatever with the data
     onComplete(data);
 
     return false;
@@ -59,9 +63,7 @@ const saveAddress = async (venId, onComplete) => {
 
 export const displayAddress = addressData => {
     const addressDiv = quickDOM("section", "", "ven-address");
-    console.log(addressData);
     addressForm.forEach(field => {
-        console.log(addressData[field.name]);
         addressDiv.append(quickDOM("span", addressData[field.name]));
     });
     return addressDiv;
