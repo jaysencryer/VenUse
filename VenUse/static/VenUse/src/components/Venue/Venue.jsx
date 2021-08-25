@@ -1,7 +1,6 @@
-// const ShowRooms = require('./ShowRooms.jsx');
-import ShowRooms from "./ShowRooms.jsx";
-import VenueTitle from "./VenueTitle.jsx";
-import VenueAddress from "./VenueAddress.jsx";
+import ShowRooms from "../ShowRooms/ShowRooms.jsx";
+import VenueTitle from "../VenueTitle/VenueTitle.jsx";
+import VenueAddress from "../VenueAddress/VenueAddress.jsx";
 
 function Venue({ venue }) {
     const [rooms, setRooms] = React.useState([]);

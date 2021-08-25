@@ -1,6 +1,5 @@
-import AvailDay from "./AvailDay.jsx";
-import MonthSelect from "./MonthSelect.jsx";
-import Calendar from "./Calendar/Calendar.jsx";
+import AvailDay from "../AvailDay/AvailDay.jsx";
+import Calendar from "../Calendar/Calendar.jsx";
 
 const today = new Date();
 

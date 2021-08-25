@@ -78,15 +78,15 @@ const showAddRoom = (venId, roomObject = null) => {
         document.querySelector("#room_form_header").textContent = "Edit Room";
         addRoomForm.querySelector("#add_room_submit").value = "Update";
         addRoomForm.querySelector("#id_name").value = roomObject.name;
-        addRoomForm.querySelector("#id_description").value =
-            roomObject.description;
+        addRoomForm.querySelector("#id_description").value = roomObject.description;
         addRoomForm.querySelector("#id_capacity").value = roomObject.capacity;
     } else {
         document.querySelector("#room_form_header").textContent = "New Room";
         addRoomForm.querySelector("#add_room_submit").value = "Add Room";
-        addRoomForm.querySelector("#id_name").value = "";
-        addRoomForm.querySelector("#id_description").value = "";
-        addRoomForm.querySelector("#id_capacity").value = "";
+        clearForm(addRoomForm);
+        // addRoomForm.querySelector("#id_name").value = "";
+        // addRoomForm.querySelector("#id_description").value = "";
+        // addRoomForm.querySelector("#id_capacity").value = "";
     }
 
     addRoomForm.querySelector("#id_name").focus();
@@ -130,11 +130,8 @@ const addRoom = async (roomForm, venId, roomId = null) => {
     // clear the form once we're happy update has happened.
     if (!("error" in data)) {
         clearForm(roomForm);
-        // roomForm.querySelector("#id_name").value = "";
-        // roomForm.querySelector("#id_description").value = "";
-        // roomForm.querySelector("#id_capacity").value = "";
-        // roomForm.querySelector("#avail_form").innerHTML = "";
-        // // Hide the form
+        roomForm.querySelector("#avail_form").innerHTML = "";
+        // Hide the form
         document.querySelector("#add_room_form").style.display = "none";
         // update the edit view
         showVenueDetail(venId);
@@ -158,31 +155,23 @@ const addVenue = async venueForm => {
     // console.log(data);
 
     // clear the form
-    venueForm.querySelector("#id_name").value = "";
-    venueForm.querySelector("#id_url").value = "";
-    venueForm.querySelector("#id_description").value = "";
+    clearForm(venueForm);
+    // venueForm.querySelector("#id_name").value = "";
+    // venueForm.querySelector("#id_url").value = "";
+    // venueForm.querySelector("#id_description").value = "";
     // update the main view
 
     return false;
 };
 
 const showVenueDetail = async id => {
-    //console.log(`showing details for Venue with id ${id}`);
     const venueDetail = document.querySelector("#venue_detail");
     const manageView = document.querySelector("#manage_container");
     venueDetail.innerHTML = "";
+
     showElement(venueDetail);
-    // venueDetail.style.display = "block";
     hideElement(manageView);
-    // manageView.style.display = "none";
-    /*
-    **  Edit buttons removed - whole venue pod now a button
-    // disable edit buttons
-    const editVenueButtons = document.querySelectorAll('.edit_venue');
-    if (!editVenueButtons[0].disabled) {
-        toggleButtons(editVenueButtons);
-    }
-    */
+
     const venElement = await venueDisplay(id);
     venueDetail.append(venElement);
     const closeButton = venueDetail.querySelector("#ven_close");
@@ -198,7 +187,7 @@ const venueDisplay = async id => {
     const data = await fetchApi(`/get_venue/${id}`);
     // console.log(data);
     if (data.error) {
-        return quickDOM("h3", data.error);
+        return quickDOM("h3", data.error, 'error-alert');
     }
 
     const venueData = data[0];
@@ -208,14 +197,11 @@ const venueDisplay = async id => {
     const venue = quickDOM("div", "", "venue_detail_main");
     venue.append(quickDOM("h1", venueData.name));
     venue.append(quickDOM("small", venueData.description));
+
     if ("street1" in address) {
         venue.append(displayAddress(address));
     } else {
-        const noAddressMessage = quickDOM(
-            "p",
-            "You have not added an address for this venue yet!",
-            "venue_detail_add"
-        );
+        const noAddressMessage = quickDOM("p", "You have not added an address for this venue yet!", "venue_detail_add");
         noAddressMessage.id = "no-address";
         venue.append(noAddressMessage);
         const addAddressButton = quickDOM(
@@ -260,12 +246,7 @@ const venueDisplay = async id => {
             roomDiv.append(roomDetail);
         });
     } else {
-        roomDiv.append(
-            quickDOM(
-                "h3",
-                "You do not have any rooms configured for this Venue"
-            )
-        );
+        roomDiv.append(quickDOM("h3","You do not have any rooms configured for this Venue"));
     }
 
     container.append(venue);

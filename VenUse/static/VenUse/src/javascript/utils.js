@@ -46,5 +46,7 @@ export const clearForm = form => {
     textAreas.forEach(area => area.value="");
     const checkBoxes = form.querySelectorAll("input[type=checkbox]");
     checkBoxes.forEach(box => box.checked = false);
+    const numberInputs = form.querySelectorAll("input[type=number]");
+    numberInputs.forEach(input => input.value='');
 };
 

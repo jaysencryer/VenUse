@@ -5,31 +5,31 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="{% static 'VenUse/styles.css' %}" rel="stylesheet" />
+        <link href="{% static 'VenUse/css/styles.css' %}" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
             href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700&display=swap"
             rel="stylesheet"
         />
-        <script type="module" src="{% static 'VenUse/venues.js' %}"></script>
+        <script type="module" src="{% static 'VenUse/src/javascript/venues.js' %}"></script>
         <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="{% static 'VenUse/apple-touch-icon.png' %}"
+            href="{% static 'VenUse/assets/apple-touch-icon.png' %}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="{% static 'VenUse/favicon-32x32.png' %}"
+            href="{% static 'VenUse/assets/favicon-32x32.png' %}"
         />
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="{% static 'VenUse/favicon-16x16.png' %}"
+            href="{% static 'VenUse/assets/favicon-16x16.png' %}"
         />
-        <link rel="manifest" href="{% static 'VenUse/site.webmanifest' %}" />
+        <link rel="manifest" href="{% static 'VenUse/assets/site.webmanifest' %}" />
         {% block scripts %} {% endblock %}
         <title>{% block title %} VenUse {% endblock %}</title>
     </head>

@@ -1,4 +1,4 @@
-import Room from './Room.jsx';
+import Room from '../Room/Room.jsx';
 
 function ShowRooms({venId}){
     const [rooms, setRooms] = React.useState([]);

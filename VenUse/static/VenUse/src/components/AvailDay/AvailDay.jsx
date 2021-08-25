@@ -1,4 +1,4 @@
-import ShowAvail from './ShowAvail';
+import ShowAvail from '../ShowAvail/ShowAvail.jsx';
 
 const dayOfWeek = [
     "Sunday",

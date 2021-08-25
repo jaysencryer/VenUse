@@ -1,5 +1,5 @@
-import Modal from "./Modal.jsx";
-import AvailabilityCalendar from "./AvailabilityCalendar.jsx";
+import Modal from "../Modal/Modal.jsx";
+import AvailabilityCalendar from "../AvailabilityCalendar/AvailabilityCalendar.jsx";
 
 function Room({ room }) {
     const [loadBooking, setLoadBooking] = React.useState(false);

@@ -1,5 +1,5 @@
-import Day from "./Day.jsx";
-import MonthSelect from "../MonthSelect.jsx";
+import Day from "../Day/Day.jsx";
+import MonthSelect from "../MonthSelect/MonthSelect.jsx";
 
 import "./Calendar.css";
 

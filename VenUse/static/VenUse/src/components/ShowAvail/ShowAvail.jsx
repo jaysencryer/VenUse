@@ -1,4 +1,4 @@
-import BookSlots from "./BookSlots";
+import BookSlots from "../BookSlots/BookSlots.jsx";
 
 const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     const strokeWidth = 3;
@@ -13,15 +13,16 @@ const AvailIcon = ({ avail, bookedSlots, size, onClick }) => {
     if (avail & 1) {
         // evening is available is it booked, or not
         borderColor = bookedSlots & 1 ? "rgb(0,0,255)" : "rgb(255,0,255)";
-    }
+    } 
     if (avail & 2) {
-        // morning is available, is it booked or not
-        topColor = bookedSlots & 4 ? "rgb(255,200,0)" : "rgb(0,255,0)";
-    }
-    if (avail & 4) {
         // afternoon is available, is it booked or not
         bottomColor = bookedSlots & 2 ? "rgb(255,200,0)" : "rgb(0,255,0)";
     }
+    if (avail & 4) {
+        // morning is available, is it booked or not
+        topColor = bookedSlots & 4 ? "rgb(255,200,0)" : "rgb(0,255,0)";
+    }
+   
 
     return (
         <div onClick={onClick}>
