@@ -5,6 +5,7 @@
 
 react_components = (
     "Modal",
+    "AvailIcon",
     "BookSlots",
     "ShowAvail",
     "MonthSelect",

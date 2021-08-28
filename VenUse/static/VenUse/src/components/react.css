@@ -166,6 +166,13 @@
     text-align: center;
 }
 
+.AVAIL_noavail {
+    position: absolute;
+    width:60px;
+    height:50px;
+    margin:0;
+    background-color : rgba(52,64,67,0.5);
+}
 .AVAIL_clickable {
     cursor: pointer;
 }

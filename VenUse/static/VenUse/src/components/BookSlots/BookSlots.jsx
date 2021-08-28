@@ -4,7 +4,7 @@
 @param closeBookingModal - function
 */
 
-const BookSlots = ({ avail, roomId, booked, bookedValue, closeBookingModal, date }) => {
+const BookSlots = ({ avail, roomId, bookedValue, closeBookingModal, date }) => {
     const [bookingDisabled, setBookingDisabled] = React.useState(true);
     const [message, setMessage] = React.useState('');
 
