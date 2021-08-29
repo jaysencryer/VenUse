@@ -3,7 +3,7 @@
 # probably be built separately and packaged up with webpack or similar.
 # if a component imports another component it must appear after it in the list
 
-react_components = (
+venue_components = (
     "Modal",
     "AvailIcon",
     "BookSlots",
@@ -17,4 +17,9 @@ react_components = (
     "ShowRooms",
     "VenueAddress",
     "VenueTitle",
-    "Venue")
+    "Venue"
+)
+
+booking_components = (
+    "UserBookings",
+)

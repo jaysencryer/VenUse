@@ -209,6 +209,46 @@ def get_bookings(request, room_id):
         bookings_response = [{}]
         
     return JsonResponse(bookings_response, safe=False, status=200)
+
+@login_required
+def get_user_bookings(request, user_name):
+    if request.method != 'GET':
+        return JsonResponse({"error": "get_user_bookings is GET only"}, status=400)
+
+    try:
+        user = User.objects.get(username=user_name)
+    except User.DoesNotExist:
+        return JsonResponse({"error": f"user {user_name} does not exist"}, status=400)
+
+    bookings = Booking.objects.filter(user=user)
+    bookings_response = []
+    for book in bookings:
+        print(book.serialize())
+        print(book.room)
+        book_obj = {}
+        book_obj["date"] = book.date
+        book_obj["slots"] = book.slot
+        # booked_room = Room.objects.get(room=book.room)
+        book_obj["venue"] = book.room.venue.name
+        book_obj["ven_id"] = book.room.venue.id
+        book_obj["room"] = book.room.name
+        book_obj["room_id"] = book.room.id
+        bookings_response.append(book_obj)
+    # Also need to send room/Venue details for each booking
+    # Booking {
+    #  date:
+    #  venue:
+    #  room:
+    #  slots:
+    # }
+
+    # print(bookings_response)
+    # if bookings:
+    #     bookings_response = [book.serialize() for book in bookings]
+    # else:
+    #     bookings_response = [{}]
+    print(bookings_response)
+    return JsonResponse(bookings_response, safe=False, status=200)
     
 @csrf_exempt
 @login_required

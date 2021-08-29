@@ -161,7 +161,7 @@ h3 {
     box-shadow: -2px 2px 3px var(--venuse-shadow);
 }
 #profile_menu.show_menu {
-    height: 100px;
+    height: fit-content;
     padding: 5px;
 }
 #profile_menu ul {

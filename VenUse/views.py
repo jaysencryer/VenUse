@@ -4,15 +4,16 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import ModelForm, TextInput, Textarea, NumberInput
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from datetime import date
 
-from .models import User, Venue, Room, Address
-from .react import react_components
+from .models import User, Venue, Room, Address, Booking
+from .react import venue_components, booking_components
 
-#
 
 
 class VenueForm(ModelForm):
@@ -45,10 +46,15 @@ class RoomForm(ModelForm):
 #########################################################
 
 def index(request):
-    #
-    # TO DO - select featured/popular venues - look for venues recently booked - random featured venue
-    #
-    feat_venues = Venue.objects.all()[0:10]
+  
+    feat_venues = set()
+    today = date.today()
+    recent_booking = Booking.objects.filter(date__gte=today).values('room').annotate(booking_count = Count('room')).order_by('-booking_count')
+    for booking in recent_booking:
+        # create a set of Venues featured in the most recent bookings
+        room = Room.objects.get(pk = booking['room']) 
+        feat_venues.add(room.venue)
+
 
     if (request.user.is_authenticated):
         user_venues = Venue.objects.filter(user=request.user)
@@ -145,6 +151,13 @@ def manage_venue(request, form_view = "none"):
         "venues": venues,
     })
 
+@login_required
+def user_bookings(request):
+    
+    return render(request, "VenUse/user_bookings.html", {
+        "react_components": booking_components,
+    })
+
 
 def show_venue(request, venurl):
     """
@@ -156,5 +169,5 @@ def show_venue(request, venurl):
     return render(request, "VenUse/default_venue.html", {
         "venue": venue,
         "address": venue_address,
-        "react_components": react_components,
+        "react_components": venue_components,
     })

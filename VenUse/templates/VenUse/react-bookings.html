@@ -1,0 +1,14 @@
+{% load static %}  
+
+<link href="{% static 'VenUse/src/components/react.css' %}" rel="stylesheet">
+
+<script type="module" src="{% static 'VenUse/src/javascript/utils.js' %}"></script>
+
+<!-- Development only! Add new React components to react.py list react_components -->
+{% for component in react_components %}
+  <script data-plugins="transform-es2015-modules-umd" type="text/babel" src="{% static 'VenUse/src/components/'|add:component|add:'/'|add:component|add:'.jsx' %}"></script>
+{% endfor %}
+<script data-plugins="transform-es2015-modules-umd" type="text/babel">
+    import UserBookings from "{% static 'VenUse/src/components/UserBookings/UserBookings.jsx' %}";
+    ReactDOM.render(<UserBookings user={`{{user.username}}`} />, document.querySelector('#bookings-container'));
+</script>
