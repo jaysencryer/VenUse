@@ -17,9 +17,10 @@ venue_components = (
     "ShowRooms",
     "VenueAddress",
     "VenueTitle",
-    "Venue"
+    "Venue",
 )
 
 booking_components = (
+    "Booking",
     "UserBookings",
 )

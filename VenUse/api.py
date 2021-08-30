@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
+from datetime import date
 
 from .models import User, Venue, Room, Booking, Address
 from .availability import Availability
+
 
 # @login_required
 
@@ -177,7 +179,6 @@ def make_booking(request):
     if not (int(slot) & int(room_avail)) == int(slot):
         return JsonResponse({"error": "Slot not in room availability"}, status=400)
 
-    # TODO
     # make sure slot isn't already booked
     dup_booking = Booking.objects.filter(date=booked_date)
     for booking in dup_booking:
@@ -215,39 +216,26 @@ def get_user_bookings(request, user_name):
     if request.method != 'GET':
         return JsonResponse({"error": "get_user_bookings is GET only"}, status=400)
 
+    if user_name != request.user.username:
+        return JsonResponse({"error": f"{request.user.username} not authorized to see bookings for {user_name}"}, status=400)
+
     try:
         user = User.objects.get(username=user_name)
     except User.DoesNotExist:
         return JsonResponse({"error": f"user {user_name} does not exist"}, status=400)
 
-    bookings = Booking.objects.filter(user=user)
+    today = date.today()
+    bookings = Booking.objects.filter(user=user).filter(date__gte=today)
     bookings_response = []
+
     for book in bookings:
-        print(book.serialize())
-        print(book.room)
         book_obj = {}
         book_obj["date"] = book.date
         book_obj["slots"] = book.slot
-        # booked_room = Room.objects.get(room=book.room)
-        book_obj["venue"] = book.room.venue.name
-        book_obj["ven_id"] = book.room.venue.id
-        book_obj["room"] = book.room.name
-        book_obj["room_id"] = book.room.id
+        book_obj["venue"] = book.room.venue.serialize()
+        book_obj["room"] = book.room.serialize()
         bookings_response.append(book_obj)
-    # Also need to send room/Venue details for each booking
-    # Booking {
-    #  date:
-    #  venue:
-    #  room:
-    #  slots:
-    # }
 
-    # print(bookings_response)
-    # if bookings:
-    #     bookings_response = [book.serialize() for book in bookings]
-    # else:
-    #     bookings_response = [{}]
-    print(bookings_response)
     return JsonResponse(bookings_response, safe=False, status=200)
     
 @csrf_exempt

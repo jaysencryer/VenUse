@@ -17,12 +17,12 @@
                 <section  class="venue_pod_btn" onclick='window.location.href="{% url 'manage_venue' %}";'>
                     Manage Venues
                 </section>
-
+            {% endif %}
                 <section class="venue_pod" onclick='window.location.href="{% url 'user_bookings' %}";'>
                     View Bookings
                 </section>
 
-            {% endif %}
+           
         </div>
     {% endif %}
     <div class="featured_venues">

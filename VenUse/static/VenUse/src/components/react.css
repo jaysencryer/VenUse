@@ -193,10 +193,43 @@
     width: 40px;
 }
 
+.BOOKING_close {
+    cursor: pointer;
+    float:right;
+    font-size: larger;
+    font-stretch: wider;
+}
+
+.BOOKING_container {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+    padding: 20px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--venuse-shadow);
+    margin: 5px auto;
+}
+
+
 .BOOKING_err_message {
     color: red;
     font-size: 20px;
     margin: 4px 4px;
+}
+
+.BOOKING_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (min-width:500px) {
+    .BOOKING_info {
+        width: 500px;
+        margin: 0 auto;
+    }
 }
 
 .BOOKING_modal {
@@ -242,9 +275,17 @@
     margin-bottom: 4px;
 }
 
-.BOOKING_close {
+.BOOKING_room {
+    font-size: 25px;
+}
+
+.BOOKING_slots {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.BOOKING_venue {
+    font-size: 30px;
     cursor: pointer;
-    float:right;
-    font-size: larger;
-    font-stretch: wider;
 }
