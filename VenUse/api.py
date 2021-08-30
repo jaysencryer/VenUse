@@ -202,7 +202,8 @@ def get_bookings(request, room_id):
     except Room.DoesNotExist:
         return JsonResponse({"error": f"room id:{room_id} does not exist"}, status=400)
 
-    bookings = room.room_bookings.all()
+    today = date.today()
+    bookings = room.room_bookings.all().filter(date__gte=today)
 
     if bookings:
         bookings_response = [book.serialize() for book in bookings]

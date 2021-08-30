@@ -1,6 +1,4 @@
-const VenueAddress = ({ className, address }) => {
-    console.log(address)
-    return (
+const VenueAddress = ({ className, address }) => (
     <section className={className}>
         <span>{address.street1}</span>
         <span>{address.street2}</span>
@@ -10,6 +8,5 @@ const VenueAddress = ({ className, address }) => {
         <span>{address.zip}</span>
     </section>
 );
-    };
 
 export default VenueAddress;
