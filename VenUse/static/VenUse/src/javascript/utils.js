@@ -50,3 +50,17 @@ export const clearForm = form => {
     numberInputs.forEach(input => input.value='');
 };
 
+export const showBookedSlots = (slots) => {
+    // converts the numeric value for the slots to the text, Morning, Afternoon, Evening.
+    let slotCount = slots;
+    let bookingText = slots & 4 ? "Morning" : "";
+    slotCount -= slots & 4;
+    bookingText += slotCount > 0 && slots > 3 ? ", " : "";
+    bookingText += slots & 2 ? "Afternoon" : "";
+    slotCount -= slots & 2;
+    bookingText += slotCount > 0 ? ", " : "";
+    bookingText += slots & 1 ? "Evening" : "";
+    bookingText += ".";
+
+    return bookingText;
+};

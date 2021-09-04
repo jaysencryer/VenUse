@@ -1,6 +1,7 @@
 import { quickDOM, fetchApi, hideElement, showElement, clearForm } from "./utils.js";
 import { makeAvailForm, getAvailability } from "./availability.js";
 import { showAddAddress, displayAddress } from "./address.js";
+import { showVenueBookings } from "./bookings.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // When page loads - check for user_id button, and set up profile menu
@@ -46,6 +47,7 @@ const showAddVenue = () => {
     hideElement(manageContainer);
 
     addVenueForm.querySelector("#id_name").focus();
+    
     addVenueForm.onsubmit = () => {
         addVenue(addVenueForm);
         showElement(manageContainer);
@@ -90,6 +92,7 @@ const showAddRoom = (venId, roomObject = null) => {
     }
 
     addRoomForm.querySelector("#id_name").focus();
+   
     addRoomForm.onsubmit = () => {
         // Form completed - add the room to the database
         // or if there's a room object update it
@@ -98,7 +101,9 @@ const showAddRoom = (venId, roomObject = null) => {
         hideElement(addRoomDiv);
         return false;
     };
+  
     const closeButton = addRoomForm.querySelector("#add_room_close");
+ 
     closeButton.onclick = () => {
         showElement(venueDetail);
         hideElement(addRoomDiv);
@@ -152,13 +157,8 @@ const addVenue = async venueForm => {
             description: venueDescription,
         }),
     });
-    // console.log(data);
 
-    // clear the form
     clearForm(venueForm);
-    // venueForm.querySelector("#id_name").value = "";
-    // venueForm.querySelector("#id_url").value = "";
-    // venueForm.querySelector("#id_description").value = "";
     // update the main view
 
     return false;
@@ -174,11 +174,19 @@ const showVenueDetail = async id => {
 
     const venElement = await venueDisplay(id);
     venueDetail.append(venElement);
+    
+    const viewVenueBookings = venueDetail.querySelector("#ven_view_bookings");
+    viewVenueBookings.onclick = () => {
+        showVenueBookings(id);
+        // document.querySelector('#venue-booking-close'.o);
+
+        hideElement(venueDetail);
+    }
+
     const closeButton = venueDetail.querySelector("#ven_close");
     closeButton.onclick = () => {
         showElement(manageView);
         hideElement(venueDetail);
-        venueDetail.style.display = "none";
     };
 };
 
@@ -220,6 +228,10 @@ const venueDisplay = async id => {
 
         venue.append(addAddressButton);
     }
+
+    const viewBookingsButton = quickDOM("button", "View Venue Bookings", "ven-btn");
+    viewBookingsButton.id = "ven_view_bookings";
+    venue.append(viewBookingsButton);
 
     const closeButton = quickDOM("button", "Close", "ven-btn");
     closeButton.id = "ven_close";

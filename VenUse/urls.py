@@ -25,5 +25,6 @@ urlpatterns = [
     path("make_booking", api.make_booking, name="make_booking"),
     path("get_bookings/<int:room_id>", api.get_bookings, name="get_bookings"),
     path("get_bookings/<str:user_name>", api.get_user_bookings, name="get_user_bookings"),
+    path("get_bookings/venue/<int:venue_id>", api.get_venue_bookings, name="get_venue_bookings"),
     path("post_address/<int:ven_id>", api.post_address, name="post_address")
 ]

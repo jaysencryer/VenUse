@@ -60,6 +60,40 @@ body {
     padding: 0px;
 }
 
+.ven-bookings {
+    padding:5px;
+    margin: 10px auto;
+    width: 100%;
+    vertical-align: top;
+    border-spacing: 9px;
+    text-align: left;
+    border: 1px solid var(--venuse-shadow);
+    border-radius: 10px;
+}
+
+[class^="booking-head"] {
+    font-size:30px;
+    vertical-align: top;
+}
+
+.booking-head-ends {
+    width:22%;
+}
+
+@media (min-width:500px) {
+    .booking-head-ends {
+        width:auto;
+    }
+}
+
+.booking-table {
+    vertical-align: top;
+}
+
+#booking-info {
+    /* display: flex;
+    justify-content: space-around; */
+}
 
 h1 {
     text-align: center;
