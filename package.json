@@ -1,0 +1,19 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "cs50 web x capstone project",
+  "main": "index.js",
+  "type": "module",
+    "scripts": {
+    "test": "npx jest"
+  },
+  "author": "Jaysen Cryer",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.4",
+    "jest": "^27.1.0"
+  }
+}

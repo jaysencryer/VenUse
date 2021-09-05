@@ -5,3 +5,5 @@ VenUse/__pycache__/
 VenUse/migrations/
 capstone/__pycache__/
 runserver.ps1
+node_modules/*
+coverage/*
