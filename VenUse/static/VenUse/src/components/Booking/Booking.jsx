@@ -7,14 +7,22 @@ const Booking = ({ booking }) => {
 
     const showBookedSlots = () => {
         // converts the numeric value for the slots to the text, Morning, Afternoon, Evening.
+        // converts the numeric value for the slots to the text, Morning, Afternoon, Evening.
         let slotCount = slots;
-        let bookingText = slots & 4 ? "Morning" : "";
-        slotCount -= slots & 4;
-        bookingText += slotCount > 0 && slots > 3 ? ", " : "";
-        bookingText += slots & 2 ? "Afternoon" : "";
-        slotCount -= slots & 2;
-        bookingText += slotCount > 0 ? ", " : "";
-        bookingText += slots & 1 ? "Evening" : "";
+        let bookingText = "";
+        if (slots & 4) {
+            bookingText += "Morning";
+            slotCount -= slots & 4;
+            bookingText += slotCount > 0 ? ", " : "";
+        }
+        if (slots & 2) {
+            bookingText += "Afternoon";
+            slotCount -= slots & 2;
+            bookingText += slotCount > 0 ? ", " : "";
+        }
+        if (slots & 1) {
+            bookingText += slots & 1 ? "Evening" : "";
+        }
         bookingText += ".";
 
         return bookingText;

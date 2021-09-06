@@ -7,7 +7,7 @@ export const showVenueBookings = async (venueId) => {
     
     const venueBookings = await fetchApi(`/get_bookings/venue/${venueId}`);
     if (venueBookings.error) {
-        venueBookingsDiv.append(quickDOM("h3", data.error, 'error-alert'));
+        venueBookingsDiv.append(quickDOM("h3", venueBookings.error, 'error-alert'));
     }
 
     const bookingsHeader = ['Room', 'Date', 'User', 'Slots'];

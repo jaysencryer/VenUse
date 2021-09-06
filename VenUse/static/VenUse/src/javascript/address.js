@@ -27,8 +27,6 @@ export const showAddAddress = (venId, parentElement) => {
     submitAddress.onclick = () => {
         saveAddress(venId, (response) => {
             if ("error" in response) {
-                // TODO add some error in the view for the user
-                console.error(response.error);
                 parentElement.insertBefore(quickDOM('h3',response.error, 'error-alert'), addressFormElement);
             } else {
                 hideElement(addressFormElement);
@@ -54,7 +52,6 @@ const saveAddress = async (venId, onComplete) => {
         method: "POST",
         body: JSON.stringify(formBody),
     });
-
     // onComplete is callback to do whatever with the data
     onComplete(data);
 
