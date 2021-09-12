@@ -3,11 +3,14 @@
     "verbose": true,
     "moduleFileExtensions": [
       "js",
-      "mjs"
+      "mjs",
+      "jsx"
     ],
     "transform": {
+      "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest",
       "^.+\\.mjs$": "babel-jest"
+      
     }
    
   }

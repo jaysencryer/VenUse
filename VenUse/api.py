@@ -75,7 +75,7 @@ def add_room(request):
 
     # check that current user owns the venue
     if venue.user != request.user:
-        return JsonReponse({"error": "User mismatch error!"}, status=400)
+        return JsonResponse({"error": "User mismatch error!"}, status=400)
 
     if room_id:
         room = Room.objects.get(pk=room_id)
@@ -97,7 +97,7 @@ def add_room(request):
 @login_required
 def add_venue(request):
     if request.method != "POST":
-        return JsonResponse({"error": "add_room is POST only"}, status=400)
+        return JsonResponse({"error": "add_venue is POST only"}, status=400)
 
     # This route gets accessed by venues.js which sends json, AND directly from an html form, which doesn't
     if "name" in request.POST:
@@ -117,13 +117,14 @@ def add_venue(request):
 
     try:
         duplicate_url = Venue.objects.get(url=url)
+        num = 0
+        base_url = url
         while duplicate_url:
             # that url already exists
-            num = 1
-            url = f"{url}{num}"
+            num = num + 1 
+            url = f"{base_url}{num}"
             # print(url)
             duplicate_url = Venue.objects.get(url=url)
-            num = num + 1 
     except Venue.DoesNotExist:
         new_venue = Venue(
             user=request.user, name=name, url=url, description=description)
@@ -191,7 +192,7 @@ def make_booking(request):
     )
     new_booking.save()
 
-    return JsonResponse({"message": "Slot booked succesffully", "Booking": new_booking.serialize()}, status=200)
+    return JsonResponse({"message": "Slot booked successfully", "Booking": new_booking.serialize()}, status=200)
 
 def get_bookings(request, room_id):
     if request.method != 'GET':
@@ -274,6 +275,18 @@ def post_address(request, ven_id):
     if request.method != 'POST':
         return JsonResponse({"error": "post_address is POST only"}, status=400) 
 
+    venue = Venue.objects.get(pk=ven_id)
+    
+    if venue.user != request.user:
+        # Only venue user can add an address
+        return JsonResponse({"error":f"Current user does not own venue {ven_id}"},status=400) 
+    
+    if venue.venue_address.first():
+        # Venue already has an address, only 1 allowed!
+        return JsonResponse({"error":"Venue already has an address.  Only one address allowed"}, status=400)
+
+
+
     data = json.loads(request.body)
 
     # json data
@@ -284,12 +297,8 @@ def post_address(request, ven_id):
     country = data.get("country")
     zip_code = data.get("zip")
 
-    venue = Venue.objects.get(pk=ven_id)
-    if venue.venue_address.first():
-        # Venue already has an address, only 1 allowed!
-        return JsonResponse({"error":"Venue already has an address.  Only one address allowed"}, status=400)
 
-    new_address = Address(venue=venue, street1=street1, street2=street2, city=city, country=country, zip_code=zip_code)
+    new_address = Address(venue=venue, street1=street1, street2=street2, city=city, state=state, country=country, zip_code=zip_code)
     new_address.save()
     return_address = new_address.serialize()
 

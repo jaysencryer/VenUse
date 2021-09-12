@@ -1,0 +1,9 @@
+[run]
+omit = 
+    capstone/*
+    capstone-env/*
+    manage.py
+    VenUse/migrations/*
+    VenUse/admin.py
+    VenUse/apps.py
+    VenUse/__init__.py

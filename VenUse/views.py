@@ -76,11 +76,9 @@ def login_view(request):
         password = request.POST["password"]
         next_view = request.POST["next"]
         user = authenticate(request, username=username, password=password)
-
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            # print(next_view)
             if next_view:
                 return HttpResponseRedirect(next_view)
             else:

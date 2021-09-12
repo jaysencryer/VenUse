@@ -1,3 +1,7 @@
+// TODO package react or set up shim to allow import in component
+// uncomment next line for test to work
+// import React from 'react';
+
 const Booking = ({ booking }) => {
     const { venue, room, slots, date } = booking;
 
@@ -6,7 +10,6 @@ const Booking = ({ booking }) => {
     };
 
     const showBookedSlots = () => {
-        // converts the numeric value for the slots to the text, Morning, Afternoon, Evening.
         // converts the numeric value for the slots to the text, Morning, Afternoon, Evening.
         let slotCount = slots;
         let bookingText = "";
@@ -21,7 +24,7 @@ const Booking = ({ booking }) => {
             bookingText += slotCount > 0 ? ", " : "";
         }
         if (slots & 1) {
-            bookingText += slots & 1 ? "Evening" : "";
+            bookingText += "Evening";
         }
         bookingText += ".";
 
