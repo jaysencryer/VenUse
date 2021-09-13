@@ -181,7 +181,7 @@ def make_booking(request):
         return JsonResponse({"error": "Slot not in room availability"}, status=400)
 
     # make sure slot isn't already booked
-    dup_booking = Booking.objects.filter(date=booked_date)
+    dup_booking = Booking.objects.filter(room=booked_room).filter(date=booked_date)
     for booking in dup_booking:
         if booking.slot & int(slot) == int(slot):
             # slot is already booked for this date

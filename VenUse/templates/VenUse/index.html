@@ -25,12 +25,13 @@
            
         </div>
     {% endif %}
-    <div class="featured_venues">
+    <section class="featured_venues">
+        <h2>Popular Venues</h2>
         {% for venue in feat_venues %}
             <section class="venue_pod" onclick='window.location.href="{% url 'show_venue' venue.url %}";'>
                 {{venue.name}}
             </section>
         {% endfor %}
-    </div>
+        </section>
 </div>
 {% endblock %}

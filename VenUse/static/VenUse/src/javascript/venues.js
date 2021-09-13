@@ -204,6 +204,9 @@ const venueDisplay = async id => {
     const container = quickDOM("div", "", "venue_detail_container");
     const venue = quickDOM("div", "", "venue_detail_main");
     venue.append(quickDOM("h1", venueData.name));
+    const venueLink = quickDOM("a", venueData.url, "venue-link");
+    venueLink.href = `/Venue/${venueData.url}`;
+    venue.append(venueLink);
     venue.append(quickDOM("small", venueData.description));
 
     if ("street1" in address) {

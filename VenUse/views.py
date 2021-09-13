@@ -54,6 +54,8 @@ def index(request):
         # create a set of Venues featured in the most recent bookings
         room = Room.objects.get(pk = booking['room']) 
         feat_venues.add(room.venue)
+        if len(feat_venues) == 5:
+            break
 
 
     if (request.user.is_authenticated):
