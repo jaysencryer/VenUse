@@ -12,7 +12,7 @@ class AddRoomTestCase(TestCase):
     def setUp(self):
         self.c = Client()
 
-        # create three users
+        # create users
         user1 = User.objects.create(username="user1")
         user1.set_password("password1")
         user1.save()

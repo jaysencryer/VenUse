@@ -223,13 +223,6 @@ def get_venue_bookings(request, venue_id):
     except Venue.DoesNotExist:
         return JsonResponse({"error": f"venue id:{venue_id} does not exist"}, status=400)
 
-    # try:
-    #     venueRooms = Room.objects.filter(venue=venue)
-    # except Room.DoesNotExist:
-    #     return JsonResponse({"error": f"venue id:{venue_id} has no rooms"}, status=400)
-
-    # today = date.today()
-
     allBookings = Booking.objects.all().filter(date__gte=date.today()).order_by('date')
 
     venueBookings = []
