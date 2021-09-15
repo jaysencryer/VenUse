@@ -16,7 +16,7 @@
 
 [Project File Structure](#project-file-structure)
 
-- [VenUse/static](#VenUse\/static\/VenUse\/assets)
+- [VenUse/static](#VenUse-static-VenUse-assets)
 - [React Components](#VenUse\/static\/VenUse\/src\/components)
 - [JavaScript Files](#VenUse/static/VenUse/src/javascript)
 - [Template files](#VenUse/templates/VenUse)
