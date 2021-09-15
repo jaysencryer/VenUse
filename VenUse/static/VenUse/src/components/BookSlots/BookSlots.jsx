@@ -1,7 +1,9 @@
 /*
-@param booked object - contains (id = booking id, date = date of booking, room = room id, user = bookings user name)
 @param avail int - contains 0-7 (excluding 5)
-@param closeBookingModal - function
+@param roomId int - id of room to be booked
+@param bookedValue - current slots booked for this date
+@param closeBookingModal - function to call when modal closed
+@param date - datetime - date of the booking
 */
 
 const BookSlots = ({ avail, roomId, bookedValue, closeBookingModal, date }) => {

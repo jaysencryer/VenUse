@@ -3,7 +3,6 @@ import VenueTitle from "../VenueTitle/VenueTitle.jsx";
 import VenueAddress from "../VenueAddress/VenueAddress.jsx";
 
 function Venue({ venue }) {
-    const [rooms, setRooms] = React.useState([]);
     return (
         <div>
         <div className="VENUE_container">
