@@ -1,7 +1,7 @@
 import Modal from "../Modal/Modal.jsx";
 import AvailabilityCalendar from "../AvailabilityCalendar/AvailabilityCalendar.jsx";
 
-function Room({ room }) {
+function Room({ room, venueUrl }) {
     const [loadBooking, setLoadBooking] = React.useState(false);
     const [bookings, setBookings] = React.useState([]);
 
@@ -50,7 +50,7 @@ function Room({ room }) {
                 }
                 {!userLoggedIn && 
                 <div>
-                    Log in to book this room
+                    <a href={`/login?next=Venue/${venueUrl}`}>Log in to book this room</a>
                 </div>
                 }
             </div>
