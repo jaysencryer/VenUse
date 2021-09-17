@@ -34,7 +34,7 @@ function Room({ room, venueUrl }) {
         <div className="VENUE_display_room" key={room.id}>
             <p className="VENUE_room_head">{room.name}</p>
             <div className="VENUE_room_body">
-                {room.description.split(".")[0]}...
+                {room.description}
                 <p>Maximum Occupancy - {room.capacity}</p>
             </div>
             <div className="VENUE_room_foot">
