@@ -7,7 +7,7 @@ function Room({ room, venueUrl }) {
 
     // Determine if user is logged in
     // if a div with the id 'user_name' is present they are.
-    const userLoggedIn = document.getElementById('user_name');
+    const userLoggedIn = document.getElementById("user_name");
 
     const clickHandler = () => {
         setLoadBooking(true);
@@ -18,45 +18,49 @@ function Room({ room, venueUrl }) {
         const response = await data.json();
         // console.log(response);
         setBookings([...response]);
-    }
+    };
 
-    React.useEffect(()=> {
+    React.useEffect(() => {
         getBookings();
-    },[]);
-    
+    }, []);
+
     const handleBookedSlot = () => {
         // Get new bookings
         getBookings();
         setLoadBooking(false);
-    }
+    };
 
     return (
         <div className="VENUE_display_room" key={room.id}>
             <p className="VENUE_room_head">{room.name}</p>
-            <div className="VENUE_room_body">
-                {room.description}
-                <p>Maximum Occupancy - {room.capacity}</p>
-            </div>
+            <div className="VENUE_room_body">{room.description}</div>
             <div className="VENUE_room_foot">
-                {userLoggedIn &&
-                <button
-                className="ven-btn"
-                style={{ float: "right" }}
-                name={`book_${room.id}`}
-                onClick={() => clickHandler()}
-                >
-                    Book This Room
-                </button>
-                }
-                {!userLoggedIn && 
-                <div>
-                    <a href={`/login?next=Venue/${venueUrl}`}>Log in to book this room</a>
-                </div>
-                }
+                <p>Maximum Occupancy - {room.capacity}</p>
+                {userLoggedIn && (
+                    <button
+                        className="ven-btn-sm"
+                        name={`book_${room.id}`}
+                        onClick={() => clickHandler()}
+                    >
+                        Book This Room
+                    </button>
+                )}
+                {!userLoggedIn && (
+                    <div>
+                        <a href={`/login?next=Venue/${venueUrl}`}>
+                            Log in to book this room
+                        </a>
+                    </div>
+                )}
             </div>
             {loadBooking && (
                 <Modal title={room.name} onClose={() => setLoadBooking(false)}>
-                    <AvailabilityCalendar availObj={room.availability} roomId={room.id} bookings={bookings} onBooked={handleBookedSlot}/>
+                    <AvailabilityCalendar
+                        availObj={room.availability}
+                        roomId={room.id}
+                        bookings={bookings}
+                        onBooked={handleBookedSlot}
+                    />
                 </Modal>
             )}
         </div>
