@@ -204,7 +204,7 @@ def get_bookings(request, room_id):
         return JsonResponse({"error": f"room id:{room_id} does not exist"}, status=400)
 
     today = date.today()
-    bookings = room.room_bookings.all().filter(date__gte=today)
+    bookings = room.room_bookings.all().filter(date__gte=today).order_by('date')
 
     if bookings:
         bookings_response = [book.serialize() for book in bookings]
@@ -249,7 +249,7 @@ def get_user_bookings(request, user_name):
         return JsonResponse({"error": f"user {user_name} does not exist"}, status=400)
 
     today = date.today()
-    bookings = Booking.objects.filter(user=user).filter(date__gte=today)
+    bookings = Booking.objects.filter(user=user).filter(date__gte=today).order_by('date')
     bookings_response = []
 
     for book in bookings:
