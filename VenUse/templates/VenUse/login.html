@@ -24,7 +24,7 @@
         <input type="hidden" name="next" value="{{next}}">
     </form>
     <footer class="info">
-        Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+        Don't have an account? <a href="{% url 'register' %}?next={{next}}">Register here.</a>
     </footer>
 </div>
 {% endblock %}

@@ -94,9 +94,12 @@ def login_view(request):
 
 
 def register(request):
+    next_view = request.GET.get('next','').strip('/')
+
     if request.method == 'POST':
         username = request.POST["username"]
         fullname = request.POST["fullname"]
+        next_view = request.POST["next"]
 
         # split full name up
         fullname_arr = fullname.split(' ')
@@ -113,6 +116,7 @@ def register(request):
         if password != confirmation:
             return render(request, "VenUse/register.html", {
                 "message": "Verification Error: Passwords do not match!",
+                "next": next_view,
             })
 
         # Attempt to create new user
@@ -125,9 +129,12 @@ def register(request):
                 "message": "Username already exists."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        if next_view:
+            return HttpResponseRedirect(next_view)
+        else:
+            return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "VenUse/register.html")
+        return render(request, "VenUse/register.html", {"next" : next_view })
 
 
 @login_required
