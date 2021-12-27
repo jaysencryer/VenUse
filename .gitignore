@@ -11,3 +11,4 @@ htmlcov/*
 VenUse/tests/__pycache__/*
 VenUse/tests/api/__pycache__/*
 VenUse/tests/availability/__pycache__/*
+.env
